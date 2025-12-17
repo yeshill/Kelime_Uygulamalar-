@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Sınıf İngilizce | Test Uygulaması</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        :root {
+            --primary-blue: #1E88E5;
+            --accent-blue: #4FC3F7;
+            --dark-blue: #1565C0;
+            --primary-green: #43A047;
+            --accent-green: #66BB6A;
+            --pure-white: #FFFFFF;
+            --bg-white: #F8F9FA;
+            --bg-light-blue: #E3F2FD;
+            --text-dark: #263238;
+            --text-light: #546E7A;
+            --border-light: #BBDEFB;
+            --shadow-blue: rgba(30, 136, 229, 0.1);
+            --shadow-green: rgba(67, 160, 71, 0.1);
+            --wrong-red: #f31a0a;
+            --correct-green: #1ae724;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-light-blue) 0%, var(--bg-white) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .hidden { display: none !important; }
+        
+        /* --- SES BUTONU STİLİ --- */
+        .mute-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            width: 50px;
+            height: 50px;
+            background-color: var(--pure-white);
+            color: var(--primary-blue);
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .mute-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            background-color: var(--bg-light-blue);
+        }
+
+        .mute-toggle-btn.muted {
+            background-color: #eee;
+            color: #999;
+            border-color: #ccc;
+        }
+
+        /* 1. Form Stilleri */
+        .user-form-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .user-form-card { background-color: var(--pure-white); border-radius: 20px; box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15); padding: 50px; width: 100%; max-width: 600px; border: 2px solid var(--border-light); animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        
+        /* ÖZEL TASARIM ALANLARI */
+        .school-badge {
+            background: rgba(30, 136, 229, 0.08);
+            color: var(--dark-blue);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-header { text-align: center; margin-bottom: 30px; }
+        .form-header i.main-icon { font-size: 3rem; color: var(--primary-blue); margin-bottom: 20px; animation: waveLogo 2s ease-in-out infinite; }
+        .form-header h1 { font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 10px; }
+        
+        .creator-signature {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .signature-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+        .signature-name { 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 800; 
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-input { width: 100%; padding: 16px 20px; border: 2px solid var(--border-light); border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; }
+        .form-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2); }
+        .form-input[readonly] { background-color: #f1f3f5; color: #777; cursor: not-allowed; border-style: dashed; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .submit-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(30, 136, 229, 0.3); }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(30, 136, 229, 0.4); }
+
+        /* 2. Header & Main Page */
+        .main-header { background: linear-gradient(135deg, var(--bg-light-blue) 0%, var(--bg-white) 100%); padding: 24px 0; box-shadow: 0 4px 12px var(--shadow-blue); position: relative; overflow: hidden; }
+        .main-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-green)); animation: wave 3s linear infinite; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding-right: 60px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.8rem; font-weight: 700; color: var(--primary-blue); }
+        .user-info { display: flex; align-items: center; gap: 15px; background-color: var(--pure-white); padding: 10px 20px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-blue); }
+        
+        .unit-cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
+            margin-top: 40px; 
+            align-items: stretch; 
+        }
+        
+        .unit-card { 
+            background-color: var(--pure-white); 
+            border-radius: 20px; 
+            padding: 40px 30px; 
+            box-shadow: 0 8px 32px var(--shadow-green); 
+            border: 2px solid var(--border-light); 
+            transition: all 0.3s ease; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100%; 
+        }
+
+        .unit-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(67, 160, 71, 0.2); }
+        .unit-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-green)); }
+        .unit-icon { font-size: 3.5rem; color: var(--primary-blue); margin-bottom: 20px; }
+        .unit-title { font-size: 1.8rem; margin-bottom: 15px; }
+        .unit-stats { display: flex; justify-content: space-around; margin-bottom: 25px; padding: 15px; background-color: var(--bg-light-blue); border-radius: 12px; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-blue); }
+        
+        .card-actions { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-top: auto; 
+        }
+
+        .start-test-btn { padding: 15px 20px; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(30, 136, 229, 0.3); width: 100%; }
+        .start-test-btn:hover { transform: translateY(-3px); }
+        
+        .download-cards-btn { padding: 12px 20px; background-color: var(--pure-white); color: var(--primary-blue); border: 2px solid var(--primary-blue); border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .download-cards-btn:hover { background-color: var(--bg-light-blue); transform: translateY(-2px); }
+
+        /* 3. Test Ekranı */
+        .test-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid var(--border-light); margin-bottom: 30px; }
+        .test-info { display: flex; gap: 30px; }
+        .test-info-item { display: flex; align-items: center; gap: 10px; }
+        .test-info-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
+        .test-info-icon.correct { background-color: var(--correct-green); }
+        .test-info-icon.wrong { background-color: var(--wrong-red); }
+        .test-info-icon.time { background-color: var(--primary-blue); }
+        .question-card { background-color: var(--pure-white); border-radius: 20px; box-shadow: 0 12px 40px var(--shadow-green); padding: 50px; max-width: 800px; margin: 0 auto; border: 2px solid var(--border-light); position: relative; overflow: hidden; }
+        .question-card::before { content: ""; position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: linear-gradient(to bottom, var(--primary-blue), var(--primary-green)); }
+        .question-number { font-size: 1rem; color: var(--primary-blue); font-weight: 600; background-color: var(--bg-light-blue); padding: 8px 20px; border-radius: 20px; }
+        .question-text { font-size: 1.5rem; line-height: 1.6; margin: 40px 0; color: var(--text-dark); }
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .option { height: 80px; background-color: var(--bg-white); border: 2px solid var(--border-light); border-radius: 12px; padding: 0 25px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; }
+        .option:hover:not(.selected) { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(79, 195, 247, 0.25); border-color: var(--accent-blue); }
+        .option.correct { border-color: var(--correct-green); background-color: rgba(0, 255, 13, 0.5); animation: correctPulse 0.5s ease; }
+        .option.wrong { border-color: var(--wrong-red); background-color: rgba(255, 17, 0, 0.4); animation: shake 0.5s ease; }
+        .option-letter { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: var(--bg-light-blue); border-radius: 50%; margin-right: 20px; color: var(--primary-blue); font-weight: 600; flex-shrink: 0; }
+        .progress-bar { height: 12px; background-color: var(--bg-light-blue); border-radius: 10px; overflow: hidden; margin-top: 30px; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%); transition: width 0.8s ease; }
+
+        /* 4. Rapor Ekranı */
+        .report-header { text-align: center; margin-bottom: 50px; }
+        .report-title { font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-green)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .report-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .summary-card { background-color: var(--pure-white); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 8px 24px var(--shadow-blue); border: 2px solid var(--border-light); }
+        .summary-card.correct { border-top: 6px solid var(--correct-green); }
+        .summary-card.wrong { border-top: 6px solid var(--wrong-red); }
+        .summary-value { font-size: 2.8rem; font-weight: 700; margin-bottom: 5px; }
+        
+        .mistakes-container { background-color: var(--pure-white); border-radius: 20px; padding: 40px; box-shadow: 0 12px 40px var(--shadow-green); margin-bottom: 50px; border: 2px solid var(--border-light); }
+        .mistakes-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .mistake-item { background-color: var(--bg-white); border-radius: 12px; padding: 25px; border-left: 6px solid var(--wrong-red); }
+        .mistake-word { font-size: 1.4rem; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
+        .mistake-meaning { color: var(--text-light); font-size: 1.1rem; }
+        .mistake-explanation { color: var(--wrong-red); font-size: 1rem; font-style: italic; margin-top: 10px; }
+
+        .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 50px; }
+        .action-btn { padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; display: flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white; box-shadow: 0 6px 20px rgba(30, 136, 229, 0.3); }
+        .btn-secondary { background-color: var(--pure-white); border: 2px solid var(--accent-blue); color: var(--primary-blue); }
+        .btn-success { background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%); color: white; box-shadow: 0 6px 20px rgba(67, 160, 71, 0.3); }
+
+        .footer { text-align: center; padding: 40px 0; color: var(--text-light); border-top: 1px solid var(--border-light); margin-top: 60px; }
+
+        /* --- YENİLENMİŞ KELİME KARTI STİLLERİ --- */
+        .flashcard-page-container { position: absolute; left: -9999px; top: 0; }
+        
+        .a4-page { 
+            width: 794px; 
+            height: 1123px; 
+            background-color: white; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(8, 1fr); 
+            gap: 10px; 
+            page-break-after: always; 
+        }
+
+        .flashcard-cell { 
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5px;
+            position: relative;
+            font-size: 14px;
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-english {
+            background-color: #e3f2fd;
+            border: 2px solid #2196f3;
+            color: #1565c0;
+            font-weight: 800;
+        }
+
+        .card-turkish {
+            background-color: #fff;
+            border: 2px dashed #999;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .unit-tag {
+            position: absolute;
+            bottom: 4px;
+            font-size: 8px;
+            color: rgba(0,0,0,0.4);
+            text-transform: uppercase;
+        }
+
+        /* Animasyonlar */
+        @keyframes wave { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
+        @keyframes waveLogo { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(5deg); } }
+        @keyframes slideIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes correctPulse { 0% { box-shadow: 0 0 0 0 rgba(67, 160, 71, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(67, 160, 71, 0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+
+        @media (max-width: 768px) {
+            .unit-cards { grid-template-columns: 1fr; }
+            .report-summary { grid-template-columns: repeat(2, 1fr); }
+            .action-buttons { flex-direction: column; align-items: center; }
+            .action-btn { width: 100%; max-width: 300px; }
+            .mute-toggle-btn { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <button id="globalMuteBtn" class="mute-toggle-btn" onclick="toggleMute()">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <div id="userForm" class="user-form-container">
+        <div class="user-form-card">
+            <div class="form-header">
+                <div class="school-badge">
+                    <i class="fas fa-school"></i> Kızılören Parlaklar Ortaokulu
+                </div>
+                <br>
+                <i class="fas fa-user-graduate main-icon"></i>
+                <h1>Kelime Testi Uygulaması</h1>
+                <p>Teste başlamak için lütfen bilgilerinizi giriniz</p>
+            </div>
+            <form id="userInfoForm">
+                <div class="form-group">
+                    <label class="form-label">Adınız</label>
+                    <input type="text" id="firstName" class="form-input" required placeholder="Adınız">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soyadınız</label>
+                    <input type="text" id="lastName" class="form-input" required placeholder="Soyadınız">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Sınıfınız</label>
+                        <input type="text" id="className" class="form-input" value="5A" readonly title="Sınıf Sabitlenmiştir">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Numaranız</label>
+                        <input type="text" id="studentNumber" class="form-input" required placeholder="123">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-check-circle"></i> Bilgileri Onayla ve Devam Et</button>
+            </form>
+
+            <div class="creator-signature">
+                <span class="signature-title">Desıgned & Curated by</span>
+                <span class="signature-name"><i class="fas fa-pen-nib"></i> Mustafa Yeşil</span>
+                <span style="font-size: 0.8rem;">| English Teacher</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="mainPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-water"></i><span class="logo-text">Kelime Testi</span></div>
+                    <div class="user-info"><i class="fas fa-user-circle"></i><div><div class="user-name" id="displayUserName"></div><div class="user-class" id="displayUserClass"></div></div></div>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="container">
+                <div class="page-title">
+                    <h1>Ünite Seçimi</h1>
+                    <p>Test çözün veya çalışmak için kelime kartlarını indirin.</p>
+                </div>
+                <div class="unit-cards">
+                    <div class="unit-card">
+                        <div class="unit-icon"><i class="fas fa-book-open"></i></div>
+                        <h2 class="unit-title">Tema 1: School Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">20</div><div class="stat-label">Soru</div></div>
+                            <div class="stat-item"><div class="stat-value">Orta</div><div class="stat-label">Seviye</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme1"><i class="fas fa-play-circle"></i> Testi Başlat</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme1')"><i class="fas fa-print"></i> Kelime Kartları (PDF)</button>
+                        </div>
+                    </div>
+                    <div class="unit-card">
+                        <div class="unit-icon"><i class="fas fa-language"></i></div>
+                        <h2 class="unit-title">Tema 2: Classroom Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">20</div><div class="stat-label">Soru</div></div>
+                            <div class="stat-item"><div class="stat-value">Orta</div><div class="stat-label">Seviye</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme2"><i class="fas fa-play-circle"></i> Testi Başlat</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme2')"><i class="fas fa-print"></i> Kelime Kartları (PDF)</button>
+                        </div>
+                    </div>
+                    <div class="unit-card">
+                        <div class="unit-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h2 class="unit-title">Tema 3: Personal Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">20</div><div class="stat-label">Soru</div></div>
+                            <div class="stat-item"><div class="stat-value">Orta</div><div class="stat-label">Seviye</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme3"><i class="fas fa-play-circle"></i> Testi Başlat</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme3')"><i class="fas fa-print"></i> Kelime Kartları (PDF)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="testPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-water"></i><span class="logo-text">Kelime Testi</span></div>
+                    <div class="test-header">
+                        <div class="test-info">
+                            <div class="test-info-item"><div class="test-info-icon correct"><i class="fas fa-check"></i></div><div class="test-info-text"><div class="test-info-value" id="correctCount">0</div><div class="test-info-label">Doğru</div></div></div>
+                            <div class="test-info-item"><div class="test-info-icon wrong"><i class="fas fa-times"></i></div><div class="test-info-text"><div class="test-info-value" id="wrongCount">0</div><div class="test-info-label">Yanlış</div></div></div>
+                            <div class="test-info-item"><div class="test-info-icon time"><i class="fas fa-clock"></i></div><div class="test-info-text"><div class="test-info-value" id="timeLeft">00:00</div><div class="test-info-label">Süre</div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="container">
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-number" id="currentQuestion">Soru 1/20</div>
+                        <div id="unitTitle" class="question-number">Tema 1</div>
+                    </div>
+                    <h2 class="question-text" id="questionText">Soru yükleniyor...</h2>
+                    <div class="options-grid" id="optionsContainer"></div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>Test İlerlemesi</span><span id="progressPercent">%0</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="reportPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-water"></i><span class="logo-text">Kelime Testi</span></div>
+                    <div class="user-info"><i class="fas fa-chart-line"></i><div><div class="user-name" id="reportUserName"></div><div class="user-class">Test Raporu</div></div></div>
+                </div>
+            </div>
+        </header>
+        
+        <main class="report-container" id="reportContentToPrint">
+            <div class="container">
+                <div class="report-header">
+                    <h1 class="report-title">Test Sonuç Raporu</h1>
+                    <p class="report-subtitle">Sonuçlarınız başarıyla sisteme kaydedilmiştir.</p>
+                    <p style="color:var(--text-light); font-size:0.9rem;" id="reportDate"></p>
+                </div>
+                
+                <div class="report-summary">
+                    <div class="summary-card correct"><div class="summary-icon"><i class="fas fa-check-circle"></i></div><div class="summary-value" id="reportCorrect">0</div><div class="summary-label">Doğru Cevap</div></div>
+                    <div class="summary-card wrong"><div class="summary-icon"><i class="fas fa-times-circle"></i></div><div class="summary-value" id="reportWrong">0</div><div class="summary-label">Yanlış Cevap</div></div>
+                    <div class="summary-card score"><div class="summary-icon"><i class="fas fa-star"></i></div><div class="summary-value" id="reportScore">0%</div><div class="summary-label">Başarı</div></div>
+                    <div class="summary-card time"><div class="summary-icon"><i class="fas fa-clock"></i></div><div class="summary-value" id="reportTime">00:00</div><div class="summary-label">Süre</div></div>
+                </div>
+                
+                <div class="mistakes-container">
+                    <h2 class="table-title">Hata Yapılan Kelimeler</h2>
+                    <div class="mistakes-list" id="mistakesList"></div>
+                </div>
+                
+                <div class="action-buttons" data-html2canvas-ignore="true">
+                    <button class="action-btn btn-success" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> PDF Olarak İndir</button>
+                    <button class="action-btn btn-primary" id="newTestBtn"><i class="fas fa-redo"></i> Yeni Test Başlat</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container"><p>© 2025 Kelime Testi Uygulaması | Kızılören Parlaklar Ortaokulu</p></div>
+        </footer>
+    </div>
+
+    <div id="flashcardContainer" class="flashcard-page-container"></div>
+
+    <div id="loadingOverlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white;">
+        <div style="width: 50px; height: 50px; border: 5px solid var(--bg-light-blue); border-top: 5px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+        <h2 id="loadingText">İşlem Yapılıyor...</h2>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+    </div>
+
+    <script>
+        // --- SES SİSTEMİ (VOLUME BOOSTED) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let isMuted = false;
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('globalMuteBtn');
+            if (isMuted) {
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.classList.add('muted');
+            } else {
+                btn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                btn.classList.remove('muted');
+            }
+        }
+
+        function playCorrectSound() {
+            if (isMuted || audioCtx.state === 'suspended') audioCtx.resume();
+            if (isMuted) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+            
+            // Volume Boost: 0.8
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
+        function playWrongSound() {
+            if (isMuted || audioCtx.state === 'suspended') audioCtx.resume();
+            if (isMuted) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'triangle'; 
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+
+            // Volume Boost: 0.8
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybKfT1iUCJbBMtjNGH8g4DHKKRlWSIk-VETlqTkPwyBj5d7HyqYzvVwQGe72m3s2IU/exec'; 
+        
+        const sinifData = {
+            "theme1": { "Headmaster": "Okul müdürü", "Assistant": "Yardımcı", "Coach": "Antrenör", "Secretary": "Sekreter", "Cook": "Aşçı", "Student": "Öğrenci", "Teacher": "Öğretmen", "Canteen": "Kantin", "Science Lab": "Fen laboratuvarı", "Library": "Kütüphane", "Sports field": "Spor sahası", "Administration": "İdari birim", "Conference hall": "Konferans salonu", "Classroom": "Sınıf", "Corridor": "Koridor", "Garden": "Bahçe", "Gate": "Okul kapısı", "Club": "Kulüp", "Folk dance": "Halk oyunları", "Chess": "Satranç", "Environment": "Çevre", "Art": "Resim", "Drama": "Tiyatro", "Maths": "Matematik", "Technology": "Teknoloji", "Music": "Müzik", "Film": "Film", "Notice board": "Duyuru panosu", "Rule": "Kural", "Uniform": "Üniforma", "Timetable": "Ders programı", "Project": "Proje", "Experiment": "Deney", "Tournament": "Turnuva", "Interview": "Röportaj", "Newspaper": "Gazete", "Poster": "Afiş", "Map": "Harita", "Flag": "Bayrak", "Country": "Ülke", "National": "Ulusal", "Celebration": "Kutlama", "Democracy": "Demokrasi", "Unity": "Birlik", "Victory": "Zafer" },
+            "theme2": { "Dictionary": "Sözlük", "Rubbish bin": "Çöp kutusu", "Seat": "Sıra", "Rubber": "Silgi", "Bookshelf": "Kitaplık", "Pencil case": "Kalemlik", "Smart board": "Akıllı tahta", "Board marker": "Tahta kalemi", "School bag": "Okul çantası", "Crayon": "Pastel boya", "Folder": "Dosya", "Stapler": "Zımba", "Printer": "Yazıcı", "Headphones": "Kulaklık", "Projector": "Projeksiyon", "Calculator": "Hesap makinesi", "Speaker": "Hoparlör", "Highlighter": "Fosforlu kalem", "Screen": "Ekran", "Scissors": "Makas", "Glue": "Yapıştırıcı", "Ruler": "Cetvel", "Sheet": "Kağıt", "Sticker": "Çıkartma", "Drawer": "Çekmece", "Book": "Kitap", "Subject": "Ders", "Social Studies": "Sosyal Bilgiler", "P.E.": "Beden Eğitimi", "I.T.": "Bilişim", "Religion": "Din Kültürü", "Science": "Fen Bilimleri", "English": "İngilizce", "Turkish": "Türkçe" },
+            "theme3": { "Wavy": "Dalgalı", "Straight": "Düz", "Curly": "Kıvırcık", "Thin": "Zayıf", "Tall": "Uzun", "Medium height": "Orta boylu", "Short": "Kısa", "Fat": "Şişman", "Slim": "İnce", "Appearance": "Dış görünüş", "Friendly": "Arkadaş canlısı", "Kind": "Kibar", "Funny": "Komik", "Clever": "Zeki", "Head": "Baş", "Eye": "Göz", "Nose": "Burun", "Face": "Yüz", "Hair": "Saç", "Arm": "Kol", "Hand": "El", "Finger": "Parmak", "Leg": "Bacak", "Foot": "Ayak", "Wing": "Kanat", "Jacket": "Ceket", "Jumper": "Kazak", "Coat": "Palto", "Headscarf": "Başörtüsü", "Shorts": "Şort", "Jeans": "Kot pantolon", "Raincoat": "Yağmurluk", "Trousers": "Pantolon", "Gloves": "Eldiven", "Skirt": "Etek", "Shirt": "Gömlek", "Dress": "Elbise", "T-shirt": "Tişört", "Hoodie": "Kapüşonlu üst", "Uniform": "Üniforma", "Costume": "Kostüm", "Hat": "Şapka", "Boots": "Bot", "Sandals": "Sandalet", "Shoes": "Ayakkabı" },
+            "functional_lang": { "Let’s get started": "Haydi başlayalım", "Line up": "Sıraya girmek", "Follow the rules": "Kurallara uymak", "Play safe": "Güvenli oynamak", "Glad to hear": "Duyduğuna memnun olmak", "Sorry to hear": "Duyduğuna üzülmek", "Feel free": "Rahat hissetmek", "Break the ice": "Buzları eritmek", "Give a hand": "Yardım etmek", "What time": "Saat kaç", "Don’t worry": "Endişelenme", "Wait a second": "Bir saniye bekle", "Here you are": "Buyrun", "Of course": "Elbette", "Excuse me": "Affedersiniz", "Nice to meet you": "Tanıştığımıza memnun oldum", "See you later": "Sonra görüşürüz", "Good job": "İyi iş", "Well done": "Aferin", "Take care": "Kendine iyi bak" }
+        };
+
+        const unitNames = {
+            "theme1": "Tema 1: School Life",
+            "theme2": "Tema 2: Classroom Life",
+            "theme3": "Tema 3: Personal Life",
+            "functional_lang": "Functional Language"
+        };
+
+        const appState = {
+            currentScreen: 'userForm',
+            userInfo: null,
+            selectedUnit: null,
+            testData: {
+                currentQuestionIndex: 0,
+                score: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                userAnswers: [],
+                startTime: null,
+                endTime: null,
+                timeSpent: 0,
+                timerInterval: null,
+                timeLimit: 15 * 60,
+                currentQuestions: []
+            }
+        };
+
+        // DOM Elementleri
+        const userForm = document.getElementById('userForm');
+        const mainPage = document.getElementById('mainPage');
+        const testPage = document.getElementById('testPage');
+        const reportPage = document.getElementById('reportPage');
+        const userInfoForm = document.getElementById('userInfoForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        
+        const displayUserName = document.getElementById('displayUserName');
+        const displayUserClass = document.getElementById('displayUserClass');
+        const reportUserName = document.getElementById('reportUserName');
+        
+        const correctCount = document.getElementById('correctCount');
+        const wrongCount = document.getElementById('wrongCount');
+        const timeLeft = document.getElementById('timeLeft');
+        const currentQuestion = document.getElementById('currentQuestion');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const unitTitle = document.getElementById('unitTitle');
+        
+        const reportCorrect = document.getElementById('reportCorrect');
+        const reportWrong = document.getElementById('reportWrong');
+        const reportScore = document.getElementById('reportScore');
+        const reportTime = document.getElementById('reportTime');
+        const mistakesList = document.getElementById('mistakesList');
+        
+        const startTestButtons = document.querySelectorAll('.start-test-btn');
+        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+        const newTestBtn = document.getElementById('newTestBtn');
+
+        // Yardımcı Fonksiyonlar
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showScreen(screenName) {
+            userForm.classList.add('hidden');
+            mainPage.classList.add('hidden');
+            testPage.classList.add('hidden');
+            reportPage.classList.add('hidden');
+            
+            if(screenName === 'mainPage') updateUserInfoDisplay();
+            
+            document.getElementById(screenName).classList.remove('hidden');
+            appState.currentScreen = screenName;
+        }
+
+        function updateUserInfoDisplay() {
+            document.getElementById('displayUserName').textContent = `${appState.userInfo.firstName} ${appState.userInfo.lastName}`;
+            document.getElementById('displayUserClass').textContent = `${appState.userInfo.className} - ${appState.userInfo.studentNumber}`;
+            document.getElementById('reportUserName').textContent = `${appState.userInfo.firstName} ${appState.userInfo.lastName}`;
+        }
+
+        function generateQuestionsForUnit(unitKey) {
+            const rawWords = sinifData[unitKey];
+            const allKeys = Object.keys(rawWords);
+            let selectedKeys = shuffleArray([...allKeys]).slice(0, 20);
+            
+            return selectedKeys.map(englishWord => {
+                const correctMeaning = rawWords[englishWord];
+                let distractors = Object.values(rawWords).filter(m => m !== correctMeaning);
+                distractors = shuffleArray(distractors).slice(0, 3);
+                let options = shuffleArray([correctMeaning, ...distractors]);
+                return {
+                    question: `"${englishWord}" kelimesinin Türkçe karşılığı nedir?`,
+                    englishWord: englishWord,
+                    options: options,
+                    correctAnswer: options.indexOf(correctMeaning),
+                    correctMeaning: correctMeaning
+                };
+            });
+        }
+
+        function startTest(unitKey) {
+            appState.selectedUnit = unitKey;
+            const questions = generateQuestionsForUnit(unitKey);
+            appState.testData = {
+                currentQuestionIndex: 0,
+                score: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                userAnswers: [],
+                startTime: new Date(),
+                endTime: null,
+                timeSpent: 0,
+                timerInterval: null,
+                timeLimit: 15 * 60,
+                currentQuestions: questions
+            };
+            
+            showScreen('testPage');
+            startTimer();
+            loadQuestion();
+            updateCounters();
+            document.getElementById('unitTitle').textContent = unitNames[unitKey];
+        }
+
+        function startTimer() {
+            clearInterval(appState.testData.timerInterval);
+            appState.testData.timerInterval = setInterval(() => {
+                const elapsed = Math.floor((new Date() - appState.testData.startTime) / 1000);
+                appState.testData.timeSpent = elapsed;
+                const min = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const sec = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timeLeft').textContent = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = appState.testData.currentQuestions[appState.testData.currentQuestionIndex];
+            const idx = appState.testData.currentQuestionIndex;
+            const total = appState.testData.currentQuestions.length;
+            
+            document.getElementById('currentQuestion').textContent = `Soru ${idx + 1}/${total}`;
+            document.getElementById('questionText').innerHTML = q.question.replace(/"([^"]+)"/, '"<span style="color:var(--primary-blue)">$1</span>"');
+            
+            document.getElementById('progressPercent').textContent = `%${Math.round((idx / total) * 100)}`;
+            document.getElementById('progressFill').style.width = `${(idx / total) * 100}%`;
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerHTML = `<div class="option-letter">${letters[i]}</div><span>${opt}</span>`;
+                div.onclick = () => handleAnswer(i, div);
+                container.appendChild(div);
+            });
+        }
+
+        function handleAnswer(selectedIndex, element) {
+            const q = appState.testData.currentQuestions[appState.testData.currentQuestionIndex];
+            const correctIndex = q.correctAnswer;
+            
+            document.querySelectorAll('.option').forEach(el => el.style.pointerEvents = 'none');
+            appState.testData.userAnswers[appState.testData.currentQuestionIndex] = selectedIndex;
+            
+            if (selectedIndex === correctIndex) {
+                playCorrectSound();
+                element.classList.add('correct');
+                appState.testData.correctAnswers++;
+                appState.testData.score += (100 / appState.testData.currentQuestions.length);
+            } else {
+                playWrongSound();
+                element.classList.add('wrong');
+                appState.testData.wrongAnswers++;
+                document.querySelectorAll('.option')[correctIndex].classList.add('correct');
+            }
+            
+            updateCounters();
+            
+            setTimeout(() => {
+                if (appState.testData.currentQuestionIndex < appState.testData.currentQuestions.length - 1) {
+                    appState.testData.currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function updateCounters() {
+            document.getElementById('correctCount').textContent = appState.testData.correctAnswers;
+            document.getElementById('wrongCount').textContent = appState.testData.wrongAnswers;
+        }
+
+        function finishTest() {
+            clearInterval(appState.testData.timerInterval);
+            appState.testData.endTime = new Date();
+            sendResultToGoogleSheets();
+            showScreen('reportPage');
+            generateReport();
+        }
+
+        function generateReport() {
+            document.getElementById('reportCorrect').textContent = appState.testData.correctAnswers;
+            document.getElementById('reportWrong').textContent = appState.testData.wrongAnswers;
+            document.getElementById('reportScore').textContent = `%${Math.round(appState.testData.score)}`;
+            
+            const min = Math.floor(appState.testData.timeSpent / 60).toString().padStart(2, '0');
+            const sec = (appState.testData.timeSpent % 60).toString().padStart(2, '0');
+            document.getElementById('reportTime').textContent = `${min}:${sec}`;
+            document.getElementById('reportDate').textContent = new Date().toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            const mistakesContainer = document.getElementById('mistakesList');
+            mistakesContainer.innerHTML = '';
+            
+            let hasMistakes = false;
+            appState.testData.currentQuestions.forEach((q, idx) => {
+                if (appState.testData.userAnswers[idx] !== q.correctAnswer) {
+                    hasMistakes = true;
+                    const item = document.createElement('div');
+                    item.className = 'mistake-item';
+                    item.innerHTML = `
+                        <div class="mistake-word">${q.englishWord}</div>
+                        <div class="mistake-meaning">Doğru: ${q.correctMeaning}</div>
+                        <div class="mistake-explanation">Cevabınız: ${q.options[appState.testData.userAnswers[idx]] || 'Boş'}</div>
+                    `;
+                    mistakesContainer.appendChild(item);
+                }
+            });
+            
+            if (!hasMistakes) {
+                mistakesContainer.innerHTML = '<div style="text-align:center; padding:20px; width:100%; color:var(--correct-green);"><h3>Mükemmel! Hiç hata yapmadınız. 🎉</h3></div>';
+            }
+        }
+
+        function sendResultToGoogleSheets() {
+            const data = {
+                OgrenciNo: appState.userInfo.studentNumber,
+                OgrenciAdi: `${appState.userInfo.firstName} ${appState.userInfo.lastName}`,
+                Sube: appState.userInfo.className,
+                TestTuru: "Çoktan Seçmeli",
+                Tema: unitNames[appState.selectedUnit],
+                DogruSayisi: appState.testData.correctAnswers,
+                ToplamSoru: appState.testData.currentQuestions.length,
+                BasariYuzdesi: Math.round(appState.testData.score),
+                HataYapilanKelimeler: appState.testData.currentQuestions
+                    .filter((q, i) => appState.testData.userAnswers[i] !== q.correctAnswer)
+                    .map(q => `${q.englishWord} (${q.correctMeaning})`)
+                    .join('; ')
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(e => console.error(e));
+        }
+
+        // --- GÖRSEL KAYIPSIZ PDF OLUŞTURMA (RAPOR) ---
+        document.getElementById('downloadPdfBtn').addEventListener('click', async () => {
+            const loading = document.getElementById('loadingOverlay');
+            loading.classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Rapor PDF Hazırlanıyor...';
+
+            const element = document.getElementById('reportContentToPrint');
+            
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: '#FFFFFF',
+                    scrollY: 0
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 190; 
+                const pageHeight = 295; 
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 10; 
+
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight; 
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position + 10, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                doc.save(`Rapor_${appState.userInfo.studentNumber}.pdf`);
+            } catch (error) {
+                console.error(error);
+                alert("PDF oluşturulamadı.");
+            } finally {
+                loading.classList.add('hidden');
+            }
+        });
+
+        // --- 4x8 YENİ TASARIM KELİME KARTI OLUŞTURMA ---
+        async function downloadFlashcards(unitKey) {
+            const loading = document.getElementById('loadingOverlay');
+            loading.classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Kartlar Hazırlanıyor...';
+
+            const words = Object.entries(sinifData[unitKey]);
+            const container = document.getElementById('flashcardContainer');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            // 4 sütun x 8 satır = 32 kutucuk
+            // Her kelime çifti 2 kutucuk kaplar (İngilizce + Türkçe)
+            // Bu yüzden sayfa başına 16 kelime sığar.
+            const PAIRS_PER_PAGE = 16;
+            const totalPages = Math.ceil(words.length / PAIRS_PER_PAGE);
+
+            try {
+                for (let i = 0; i < totalPages; i++) {
+                    const chunk = words.slice(i * PAIRS_PER_PAGE, (i + 1) * PAIRS_PER_PAGE);
+                    
+                    let pageHTML = `<div class="a4-page">`;
+                    
+                    // Önce İngilizce (Mavi), Sonra Türkçe (Beyaz Kesikli)
+                    chunk.forEach(([english, turkish]) => {
+                        // KART 1: İNGİLİZCE
+                        pageHTML += `
+                            <div class="flashcard-cell card-english">
+                                ${english}
+                                <span class="unit-tag">${unitKey}</span>
+                            </div>
+                        `;
+                        // KART 2: TÜRKÇE
+                        pageHTML += `
+                            <div class="flashcard-cell card-turkish">
+                                ${turkish}
+                            </div>
+                        `;
+                    });
+                    
+                    // Sayfa sonu boşluklarını doldur (düzen bozulmasın)
+                    const remainingPairs = PAIRS_PER_PAGE - chunk.length;
+                    // Her eksik çift için 2 boş div ekle
+                    for(let j=0; j < remainingPairs * 2; j++){
+                        pageHTML += `<div style="border:none;"></div>`;
+                    }
+
+                    pageHTML += `</div>`;
+                    container.innerHTML = pageHTML;
+
+                    const canvas = await html2canvas(container.querySelector('.a4-page'), {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#FFFFFF'
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = 210; 
+                    const imgHeight = 297; 
+
+                    if (i > 0) doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+
+                doc.save(`${unitKey}_Kelime_Kartlari.pdf`);
+
+            } catch (error) {
+                console.error(error);
+                alert("Kartlar oluşturulamadı.");
+            } finally {
+                loading.classList.add('hidden');
+                container.innerHTML = '';
+            }
+        }
+
+        // Event Listeners
+        userInfoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            appState.userInfo = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                className: document.getElementById('className').value,
+                studentNumber: document.getElementById('studentNumber').value
+            };
+            showScreen('mainPage');
+        });
+
+        document.querySelectorAll('.start-test-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                startTest(this.dataset.unit);
+            });
+        });
+
+        document.getElementById('newTestBtn').addEventListener('click', () => showScreen('mainPage'));
+    </script>
+</body>
+</html>
