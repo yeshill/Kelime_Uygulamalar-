@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Sınıf İngilizce | Words Testi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        :root {
+            --primary-blue: #1E88E5;
+            --accent-blue: #4FC3F7;
+            --dark-blue: #1565C0;
+            --primary-green: #43A047;
+            --accent-green: #66BB6A;
+            --primary-purple: #9C27B0;
+            --accent-purple: #BA68C8;
+            --primary-orange: #FF9800;
+            --accent-orange: #FFB74D;
+            --primary-pink: #E91E63;
+            --accent-pink: #F06292;
+            --primary-teal: #009688;
+            --accent-teal: #4DB6AC;
+            --primary-amber: #FFC107;
+            --accent-amber: #FFD54F;
+            --primary-indigo: #3F51B5;
+            --accent-indigo: #7986CB;
+            --pure-white: #FFFFFF;
+            --bg-white: #F8F9FA;
+            --bg-light-blue: #E3F2FD;
+            --text-dark: #263238;
+            --text-light: #546E7A;
+            --border-light: #BBDEFB;
+            --shadow-blue: rgba(30, 136, 229, 0.1);
+            --shadow-green: rgba(67, 160, 71, 0.1);
+            --shadow-purple: rgba(156, 39, 176, 0.1);
+            --shadow-orange: rgba(255, 152, 0, 0.1);
+            --wrong-red: #f44336;
+            --correct-green: #43A047;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg-light-blue) 0%, var(--bg-white) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .hidden { display: none !important; }
+        
+        /* --- SES BUTONU STİLİ --- */
+        .mute-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            width: 50px;
+            height: 50px;
+            background-color: var(--pure-white);
+            color: var(--primary-blue);
+            border: 2px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .mute-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            background-color: var(--bg-light-blue);
+        }
+
+        .mute-toggle-btn.muted {
+            background-color: #eee;
+            color: #999;
+            border-color: #ccc;
+        }
+
+        /* 1. Form Stilleri */
+        .user-form-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .user-form-card { background-color: var(--pure-white); border-radius: 20px; box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15); padding: 50px; width: 100%; max-width: 600px; border: 2px solid var(--border-light); animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .form-header { text-align: center; margin-bottom: 40px; }
+        .form-header i { font-size: 3rem; color: var(--primary-blue); margin-bottom: 20px; animation: waveLogo 2s ease-in-out infinite; }
+        .form-header h1 { font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 10px; }
+        .form-group { margin-bottom: 25px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-input { width: 100%; padding: 16px 20px; border: 2px solid var(--border-light); border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; }
+        .form-input:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .submit-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(30, 136, 229, 0.3); }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(30, 136, 229, 0.4); }
+
+        /* 2. Header & Main Page */
+        .main-header { background: linear-gradient(135deg, var(--bg-light-blue) 0%, var(--bg-white) 100%); padding: 24px 0; box-shadow: 0 4px 12px var(--shadow-blue); position: relative; overflow: hidden; }
+        .main-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-green), var(--primary-purple), var(--primary-orange)); animation: wave 3s linear infinite; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding-right: 60px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.8rem; font-weight: 700; color: var(--primary-blue); }
+        .user-info { display: flex; align-items: center; gap: 15px; background-color: var(--pure-white); padding: 10px 20px; border-radius: 12px; box-shadow: 0 4px 12px var(--shadow-blue); }
+        
+        /* GÜNCELLENEN ALAN: Kart Hizalaması */
+        .unit-cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+            margin-top: 40px; 
+            align-items: stretch;
+        }
+        
+        .unit-card { 
+            background-color: var(--pure-white); 
+            border-radius: 20px; 
+            padding: 40px 30px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08); 
+            border: 2px solid var(--border-light); 
+            transition: all 0.3s ease; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100%; 
+        }
+
+        .unit-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+        .unit-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 8px; }
+        
+        /* Her tema için farklı renkler */
+        .theme-instructions::before { background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue)); }
+        .theme-1::before { background: linear-gradient(90deg, var(--primary-green), var(--accent-green)); }
+        .theme-2::before { background: linear-gradient(90deg, var(--primary-purple), var(--accent-purple)); }
+        .theme-3::before { background: linear-gradient(90deg, var(--primary-orange), var(--accent-orange)); }
+        .theme-4::before { background: linear-gradient(90deg, var(--primary-pink), var(--accent-pink)); }
+        .theme-5::before { background: linear-gradient(90deg, var(--primary-teal), var(--accent-teal)); }
+        .theme-6::before { background: linear-gradient(90deg, var(--primary-amber), var(--accent-amber)); }
+        
+        /* İkon renkleri temalara göre */
+        .theme-instructions .unit-icon { color: var(--primary-blue); }
+        .theme-1 .unit-icon { color: var(--primary-green); }
+        .theme-2 .unit-icon { color: var(--primary-purple); }
+        .theme-3 .unit-icon { color: var(--primary-orange); }
+        .theme-4 .unit-icon { color: var(--primary-pink); }
+        .theme-5 .unit-icon { color: var(--primary-teal); }
+        .theme-6 .unit-icon { color: var(--primary-amber); }
+        
+        .unit-icon { font-size: 3.5rem; margin-bottom: 20px; }
+        .unit-title { font-size: 1.8rem; margin-bottom: 15px; color: var(--text-dark); }
+        .unit-stats { display: flex; justify-content: space-around; margin-bottom: 25px; padding: 15px; background-color: var(--bg-light-blue); border-radius: 12px; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        
+        .theme-instructions .stat-value { color: var(--primary-blue); }
+        .theme-1 .stat-value { color: var(--primary-green); }
+        .theme-2 .stat-value { color: var(--primary-purple); }
+        .theme-3 .stat-value { color: var(--primary-orange); }
+        .theme-4 .stat-value { color: var(--primary-pink); }
+        .theme-5 .stat-value { color: var(--primary-teal); }
+        .theme-6 .stat-value { color: var(--primary-amber); }
+        
+        .card-actions { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-top: auto; 
+        }
+
+        .start-test-btn { padding: 15px 20px; color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0,0,0,0.15); width: 100%; }
+        
+        .theme-instructions .start-test-btn { background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); }
+        .theme-1 .start-test-btn { background: linear-gradient(135deg, var(--primary-green) 0%, #2E7D32 100%); }
+        .theme-2 .start-test-btn { background: linear-gradient(135deg, var(--primary-purple) 0%, #7B1FA2 100%); }
+        .theme-3 .start-test-btn { background: linear-gradient(135deg, var(--primary-orange) 0%, #EF6C00 100%); }
+        .theme-4 .start-test-btn { background: linear-gradient(135deg, var(--primary-pink) 0%, #C2185B 100%); }
+        .theme-5 .start-test-btn { background: linear-gradient(135deg, var(--primary-teal) 0%, #00796B 100%); }
+        .theme-6 .start-test-btn { background: linear-gradient(135deg, var(--primary-amber) 0%, #FF8F00 100%); }
+        
+        .start-test-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        
+        .download-cards-btn { padding: 12px 20px; background-color: var(--pure-white); border: 2px solid; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        
+        .theme-instructions .download-cards-btn { color: var(--primary-blue); border-color: var(--primary-blue); }
+        .theme-1 .download-cards-btn { color: var(--primary-green); border-color: var(--primary-green); }
+        .theme-2 .download-cards-btn { color: var(--primary-purple); border-color: var(--primary-purple); }
+        .theme-3 .download-cards-btn { color: var(--primary-orange); border-color: var(--primary-orange); }
+        .theme-4 .download-cards-btn { color: var(--primary-pink); border-color: var(--primary-pink); }
+        .theme-5 .download-cards-btn { color: var(--primary-teal); border-color: var(--primary-teal); }
+        .theme-6 .download-cards-btn { color: var(--primary-amber); border-color: var(--primary-amber); }
+        
+        .download-cards-btn:hover { transform: translateY(-2px); }
+        
+        .theme-instructions .download-cards-btn:hover { background-color: rgba(30, 136, 229, 0.1); }
+        .theme-1 .download-cards-btn:hover { background-color: rgba(67, 160, 71, 0.1); }
+        .theme-2 .download-cards-btn:hover { background-color: rgba(156, 39, 176, 0.1); }
+        .theme-3 .download-cards-btn:hover { background-color: rgba(255, 152, 0, 0.1); }
+        .theme-4 .download-cards-btn:hover { background-color: rgba(233, 30, 99, 0.1); }
+        .theme-5 .download-cards-btn:hover { background-color: rgba(0, 150, 136, 0.1); }
+        .theme-6 .download-cards-btn:hover { background-color: rgba(255, 193, 7, 0.1); }
+
+        /* 3. Test Ekranı */
+        .test-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid var(--border-light); margin-bottom: 30px; }
+        .test-info { display: flex; gap: 30px; }
+        .test-info-item { display: flex; align-items: center; gap: 10px; }
+        .test-info-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; }
+        .test-info-icon.correct { background-color: var(--correct-green); }
+        .test-info-icon.wrong { background-color: var(--wrong-red); }
+        .test-info-icon.time { background-color: var(--primary-blue); }
+        .question-card { background-color: var(--pure-white); border-radius: 20px; box-shadow: 0 12px 40px var(--shadow-green); padding: 50px; max-width: 800px; margin: 0 auto; border: 2px solid var(--border-light); position: relative; overflow: hidden; }
+        .question-card::before { content: ""; position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: linear-gradient(to bottom, var(--primary-blue), var(--primary-green)); }
+        .question-number { font-size: 1rem; color: var(--primary-blue); font-weight: 600; background-color: var(--bg-light-blue); padding: 8px 20px; border-radius: 20px; }
+        .question-text { font-size: 1.5rem; line-height: 1.6; margin: 40px 0; color: var(--text-dark); }
+        .options-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .option { height: 80px; background-color: var(--bg-white); border: 2px solid var(--border-light); border-radius: 12px; padding: 0 25px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; }
+        .option:hover:not(.selected) { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(79, 195, 247, 0.25); border-color: var(--accent-blue); }
+        .option.correct { border-color: var(--correct-green); background-color: rgba(67, 160, 71, 0.1); animation: correctPulse 0.5s ease; }
+        .option.wrong { border-color: var(--wrong-red); background-color: rgba(244, 67, 54, 0.05); animation: shake 0.5s ease; }
+        .option-letter { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: var(--bg-light-blue); border-radius: 50%; margin-right: 20px; color: var(--primary-blue); font-weight: 600; flex-shrink: 0; }
+        .progress-bar { height: 12px; background-color: var(--bg-light-blue); border-radius: 10px; overflow: hidden; margin-top: 30px; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%); transition: width 0.8s ease; }
+
+        /* 4. Rapor Ekranı */
+        .report-header { text-align: center; margin-bottom: 50px; }
+        .report-title { font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(90deg, var(--primary-blue), var(--primary-green), var(--primary-purple)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .report-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .summary-card { background-color: var(--pure-white); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 8px 24px var(--shadow-blue); border: 2px solid var(--border-light); }
+        .summary-card.correct { border-top: 6px solid var(--correct-green); }
+        .summary-card.wrong { border-top: 6px solid var(--wrong-red); }
+        .summary-value { font-size: 2.8rem; font-weight: 700; margin-bottom: 5px; }
+        
+        .mistakes-container { background-color: var(--pure-white); border-radius: 20px; padding: 40px; box-shadow: 0 12px 40px var(--shadow-green); margin-bottom: 50px; border: 2px solid var(--border-light); }
+        .mistakes-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .mistake-item { background-color: var(--bg-white); border-radius: 12px; padding: 25px; border-left: 6px solid var(--wrong-red); }
+        .mistake-word { font-size: 1.4rem; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
+        .mistake-meaning { color: var(--text-light); font-size: 1.1rem; }
+        .mistake-explanation { color: var(--wrong-red); font-size: 1rem; font-style: italic; margin-top: 10px; }
+
+        .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 50px; }
+        .action-btn { padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: none; display: flex; align-items: center; gap: 12px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%); color: white; box-shadow: 0 6px 20px rgba(30, 136, 229, 0.3); }
+        .btn-secondary { background-color: var(--pure-white); border: 2px solid var(--accent-blue); color: var(--primary-blue); }
+        .btn-success { background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-green) 100%); color: white; box-shadow: 0 6px 20px rgba(67, 160, 71, 0.3); }
+
+        .footer { text-align: center; padding: 40px 0; color: var(--text-light); border-top: 1px solid var(--border-light); margin-top: 60px; }
+
+        /* --- YENİLENMİŞ KELİME KARTI STİLLERİ (4x8 İKİLİ KUTUCUK) --- */
+        .flashcard-page-container { position: absolute; left: -9999px; top: 0; }
+        
+        .a4-page { 
+            width: 794px; /* A4 width at 96 DPI approximation */
+            height: 1123px; 
+            background-color: white; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            display: grid; 
+            /* 4 Sütun x 8 Satır = 32 Hücre */
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(8, 1fr); 
+            gap: 10px; 
+            page-break-after: always; 
+        }
+
+        .flashcard-cell { 
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5px;
+            position: relative;
+            font-size: 14px;
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* İNGİLİZCE KART (Mavi Dolgulu) */
+        .card-english {
+            background-color: #e3f2fd; /* Açık Mavi */
+            border: 2px solid #2196f3; /* Koyu Mavi Çerçeve */
+            color: #1565c0;
+            font-weight: 800;
+        }
+
+        /* TÜRKÇE KART (Beyaz, Kesikli Çizgi) */
+        .card-turkish {
+            background-color: #fff;
+            border: 2px dashed #999; /* Gri Kesikli Çizgi */
+            color: #333;
+            font-weight: 600;
+        }
+
+        .unit-tag {
+            position: absolute;
+            bottom: 4px;
+            font-size: 8px;
+            color: rgba(0,0,0,0.4);
+            text-transform: uppercase;
+        }
+
+        /* Animasyonlar */
+        @keyframes wave { 0% { background-position: 0 0; } 100% { background-position: 40px 0; } }
+        @keyframes waveLogo { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(5deg); } }
+        @keyframes slideIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes correctPulse { 0% { box-shadow: 0 0 0 0 rgba(67, 160, 71, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(67, 160, 71, 0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+
+        @media (max-width: 768px) {
+            .unit-cards { grid-template-columns: 1fr; }
+            .report-summary { grid-template-columns: repeat(2, 1fr); }
+            .action-buttons { flex-direction: column; align-items: center; }
+            .action-btn { width: 100%; max-width: 300px; }
+            .mute-toggle-btn { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
+            .header-content { padding-right: 0; }
+        }
+    </style>
+</head>
+<body>
+    <button id="globalMuteBtn" class="mute-toggle-btn" onclick="toggleMute()">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <div id="userForm" class="user-form-container">
+        <div class="user-form-card">
+            <div class="form-header">
+                <i class="fas fa-user-graduate"></i>
+                <h1>2. Sınıf Words Testi</h1>
+                <p>Start Testmak için lütfen bilgilerinizi giriniz</p>
+            </div>
+            <form id="userInfoForm">
+                <div class="form-group">
+                    <label class="form-label">Adınız</label>
+                    <input type="text" id="firstName" class="form-input" required placeholder="Adınız">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Soyadınız</label>
+                    <input type="text" id="lastName" class="form-input" required placeholder="Soyadınız">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Sınıfınız</label>
+                        <input type="text" id="className" class="form-input" required placeholder="2A">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Numaranız</label>
+                        <input type="text" id="studentNumber" class="form-input" required placeholder="123">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-check-circle"></i> Bilgileri Onayla ve Devam Et</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="mainPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-language"></i><span class="logo-text">2nd Grade Vocabulary Test</span></div>
+                    <div class="user-info"><i class="fas fa-user-circle"></i><div><div class="user-name" id="displayUserName"></div><div class="user-class" id="displayUserClass"></div></div></div>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="container">
+                <div class="page-title">
+                    <h1>Unit Selection</h1>
+                    <p>Take a test or download vocabulary cards for studying.</p>
+                </div>
+                
+                <div class="unit-cards">
+                    <!-- Instructions -->
+                    <div class="unit-card theme-instructions">
+                        <div class="unit-icon"><i class="fas fa-clipboard-list"></i></div>
+                        <h2 class="unit-title">Instruction Words</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">65</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="instructional_words"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('instructional_words')"><i class="fas fa-print"></i> Flashcards(PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 1: School Life -->
+                    <div class="unit-card theme-1">
+                        <div class="unit-icon"><i class="fas fa-school"></i></div>
+                        <h2 class="unit-title">Unit 1: School Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">65</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme1"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme1')"><i class="fas fa-print"></i> Flashcards (PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 2: Classroom Life -->
+                    <div class="unit-card theme-2">
+                        <div class="unit-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h2 class="unit-title">Unit 2: Classroom Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">92</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme2"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme2')"><i class="fas fa-print"></i> Flashcards (PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 3: Personal Life -->
+                    <div class="unit-card theme-3">
+                        <div class="unit-icon"><i class="fas fa-user"></i></div>
+                        <h2 class="unit-title">Unit 3: Personal Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">125</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme3"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme3')"><i class="fas fa-print"></i> Flashcards(PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 4: Family Life -->
+                    <div class="unit-card theme-4">
+                        <div class="unit-icon"><i class="fas fa-users"></i></div>
+                        <h2 class="unit-title">Unit 4: Family Life</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">75</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme4"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme4')"><i class="fas fa-print"></i> Flashcards(PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 5: Homes & Neighbourhoods -->
+                    <div class="unit-card theme-5">
+                        <div class="unit-icon"><i class="fas fa-home"></i></div>
+                        <h2 class="unit-title">Unit 5: Homes and Neighbourhoods</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">91</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme5"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme5')"><i class="fas fa-print"></i> Flashcards(PDF)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Theme 6: Life in the City -->
+                    <div class="unit-card theme-6">
+                        <div class="unit-icon"><i class="fas fa-city"></i></div>
+                        <h2 class="unit-title">Unit 6: Life in the City</h2>
+                        <div class="unit-stats">
+                            <div class="stat-item"><div class="stat-value">90</div><div class="stat-label">Words</div></div>
+                            <div class="stat-item"><div class="stat-value">2nd</div><div class="stat-label">Grade</div></div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="start-test-btn" data-unit="theme6"><i class="fas fa-play-circle"></i> Start Test</button>
+                            <button class="download-cards-btn" onclick="downloadFlashcards('theme6')"><i class="fas fa-print"></i> Flashcards(PDF)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="testPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-language"></i><span class="logo-text">2nd Grade Vocabulary Test</span></div>
+                    <div class="test-header">
+                        <div class="test-info">
+                            <div class="test-info-item"><div class="test-info-icon correct"><i class="fas fa-check"></i></div><div class="test-info-text"><div class="test-info-value" id="correctCount">0</div><div class="test-info-label">Doğru</div></div></div>
+                            <div class="test-info-item"><div class="test-info-icon wrong"><i class="fas fa-times"></i></div><div class="test-info-text"><div class="test-info-value" id="wrongCount">0</div><div class="test-info-label">Yanlış</div></div></div>
+                            <div class="test-info-item"><div class="test-info-icon time"><i class="fas fa-clock"></i></div><div class="test-info-text"><div class="test-info-value" id="timeLeft">00:00</div><div class="test-info-label">Süre</div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main-content">
+            <div class="container">
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-number" id="currentQuestion">Question 1/20</div>
+                        <div id="unitTitle" class="question-number">Unit 1</div>
+                    </div>
+                    <h2 class="question-text" id="questionText">Loading question...</h2>
+                    <div class="options-grid" id="optionsContainer"></div>
+                    <div class="progress-container">
+                        <div class="progress-label"><span>Test Progress</span><span id="progressPercent">%0</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="reportPage" class="hidden">
+        <header class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo"><i class="fas fa-language"></i><span class="logo-text">2. Sınıf Words Testi</span></div>
+                    <div class="user-info"><i class="fas fa-chart-line"></i><div><div class="user-name" id="reportUserName"></div><div class="user-class">Test Raporu</div></div></div>
+                </div>
+            </div>
+        </header>
+        
+        <main class="report-container" id="reportContentToPrint">
+            <div class="container">
+                <div class="report-header">
+                    <h1 class="report-title">Test Sonuç Raporu</h1>
+                    <p class="report-subtitle">Sonuçlarınız başarıyla sisteme kaydedilmiştir.</p>
+                    <p style="color:var(--text-light); font-size:0.9rem;" id="reportDate"></p>
+                </div>
+                
+                <div class="report-summary">
+                    <div class="summary-card correct"><div class="summary-icon"><i class="fas fa-check-circle"></i></div><div class="summary-value" id="reportCorrect">0</div><div class="summary-label">Doğru Cevap</div></div>
+                    <div class="summary-card wrong"><div class="summary-icon"><i class="fas fa-times-circle"></i></div><div class="summary-value" id="reportWrong">0</div><div class="summary-label">Yanlış Cevap</div></div>
+                    <div class="summary-card score"><div class="summary-icon"><i class="fas fa-star"></i></div><div class="summary-value" id="reportScore">0%</div><div class="summary-label">Başarı</div></div>
+                    <div class="summary-card time"><div class="summary-icon"><i class="fas fa-clock"></i></div><div class="summary-value" id="reportTime">00:00</div><div class="summary-label">Süre</div></div>
+                </div>
+                
+                <div class="mistakes-container">
+                    <h2 class="table-title">Hata Yapılan Wordsler</h2>
+                    <div class="mistakes-list" id="mistakesList"></div>
+                </div>
+                
+                <div class="action-buttons" data-html2canvas-ignore="true">
+                    <button class="action-btn btn-success" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> PDF Olarak İndir</button>
+                    <button class="action-btn btn-primary" id="newTestBtn"><i class="fas fa-redo"></i> Yeni Test Başlat</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <div class="container"><p>© 2025 2. Sınıf Words Testi Uygulaması</p></div>
+        </footer>
+    </div>
+
+    <div id="flashcardContainer" class="flashcard-page-container"></div>
+
+    <div id="loadingOverlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white;">
+        <div style="width: 50px; height: 50px; border: 5px solid var(--bg-light-blue); border-top: 5px solid var(--primary-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+        <h2 id="loadingText">İşlem Yapılıyor...</h2>
+        <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+    </div>
+
+    <script>
+        // --- SES SİSTEMİ (VOLUME BOOSTED) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let isMuted = false;
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('globalMuteBtn');
+            if (isMuted) {
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.classList.add('muted');
+            } else {
+                btn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                btn.classList.remove('muted');
+            }
+        }
+
+        function playCorrectSound() {
+            if (isMuted || audioCtx.state === 'suspended') audioCtx.resume();
+            if (isMuted) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+            
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
+        function playWrongSound() {
+            if (isMuted || audioCtx.state === 'suspended') audioCtx.resume();
+            if (isMuted) return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'triangle'; 
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybKfT1iUCJbBMtjNGH8g4DHKKRlWSIk-VETlqTkPwyBj5d7HyqYzvVwQGe72m3s2IU/exec'; 
+        
+        // --- GÜNCELLENMİŞ KELİME HAVUZU (2. SINIF CSV'DEN) ---
+        const sinifData = {
+            "instructional_words": {
+                "Act out": "Canlandırmak",
+                "Activity": "Etkinlik",
+                "Answer": "Cevaplamak",
+                "Ask": "Sormak",
+                "Be quiet": "Sessiz ol",
+                "Check": "Kontrol etmek",
+                "Choose": "Seçmek",
+                "Circle": "Daire içine almak",
+                "Close": "Kapatmak",
+                "Colour": "Boyamak",
+                "Come here": "Buraya gel",
+                "Complete": "Tamamlamak",
+                "Connect": "Birleştirmek",
+                "Count": "Saymak",
+                "Cut": "Kesmek",
+                "Digital story": "Dijital hikaye",
+                "Draw": "Çizmek",
+                "Example": "Örnek",
+                "Find": "Bulmak",
+                "Follow": "Takip etmek",
+                "Game": "Oyun",
+                "Glue": "Yapıştırıcı",
+                "Go": "Gitmek",
+                "Group work": "Grup çalışması",
+                "Guess": "Tahmin etmek",
+                "Introduction": "Giriş",
+                "Join": "Katılmak",
+                "Listen": "Dinlemek",
+                "Look at": "-e Bakmak",
+                "Match": "Eşleştirmek",
+                "Missing": "Eksik",
+                "Number": "Numara",
+                "Open": "Açmak",
+                "Page": "Sayfa",
+                "Paint": "Boyamak",
+                "Pair work": "İkili çalışma",
+                "Paste": "Yapıştırmak",
+                "Play": "Oynamak",
+                "Point": "İşaret etmek",
+                "Project": "Proje",
+                "Pronunciation": "Telaffuz",
+                "Question": "Soru",
+                "Read": "Okumak",
+                "Repeat": "Tekrar etmek",
+                "Say": "Söylemek",
+                "Show": "Göstermek",
+                "Sing": "Şarkı söylemek",
+                "Sit down": "Oturmak",
+                "Speak": "Konuşmak",
+                "Stand up": "Ayağa kalkmak",
+                "Start": "Başlamak",
+                "Stick": "Yapıştırmak",
+                "Stop": "Durmak",
+                "Talk": "Konuşmak",
+                "Tick": "Tik atmak",
+                "Trace": "Üzerinden geçmek",
+                "Turn": "Dönmek",
+                "Unit": "Ünite",
+                "Watch": "İzlemek",
+                "Write": "Yazmak"
+            },
+            "theme1": {
+                "A / An": "Bir",
+                "Afternoon": "Öğleden sonra",
+                "Alphabet": "Alfabe",
+                "Am": "-im (Olmak)",
+                "And": "Ve",
+                "Ant": "Karınca",
+                "Apple": "Elma",
+                "Are": "-sın (Olmak)",
+                "Army": "Ordu (Topluluk)",
+                "Bake": "Pişirmek",
+                "Bear": "Ayı",
+                "Bed": "Yatak",
+                "Big": "Büyük",
+                "Boy": "Erkek çocuk",
+                "Bread": "Ekmek",
+                "Brown": "Kahverengi",
+                "Bye": "Hoşça kal",
+                "Canteen": "Kantin",
+                "Classroom": "Sınıf",
+                "Day": "Gün",
+                "Excuse me": "Affedersiniz",
+                "Fine": "İyi",
+                "Finish": "Bitirmek",
+                "Friday": "Cuma",
+                "Friend": "Arkadaş",
+                "Garden": "Bahçe",
+                "Girl": "Kız çocuk",
+                "Good afternoon": "Tünaydın",
+                "Good evening": "İyi akşamlar",
+                "Good morning": "Günaydın",
+                "Good night": "İyi geceler",
+                "Goodbye": "Hoşça kal",
+                "Great": "Harika",
+                "Headmaster": "Okul müdürü (E)",
+                "Headmistress": "Okul müdürü (K)",
+                "Hello": "Merhaba",
+                "Hi": "Selam",
+                "How": "Nasıl",
+                "I": "Ben",
+                "Is": "-dir (Olmak)",
+                "Jump": "Zıplamak",
+                "Kid": "Çocuk",
+                "Library": "Kütüphane",
+                "Lunch hall": "Yemekhane",
+                "Meet": "Tanışmak",
+                "Monday": "Pazartesi",
+                "Music room": "Müzik odası",
+                "My": "Benim",
+                "Name": "İsim",
+                "Nice to meet you": "Tanıştığımıza memnun oldum",
+                "People": "İnsanlar",
+                "Place": "Yer",
+                "Playground": "Oyun alanı",
+                "Pupil": "Öğrenci",
+                "Saturday": "Cumartesi",
+                "School": "Okul",
+                "Sorry": "Üzgünüm",
+                "Sports hall": "Spor salonu",
+                "Student": "Öğrenci",
+                "Sunday": "Pazar",
+                "Super": "Süper",
+                "Sweet": "Tatlı",
+                "Swim": "Yüzmek",
+                "Taxi": "Taksi",
+                "Tennis": "Tenis",
+                "Thank you": "Teşekkür ederim",
+                "That": "Şu",
+                "This": "Bu",
+                "Train": "Tren",
+                "University": "Üniversite",
+                "Van": "Minibüs",
+                "Wagon": "Vagon",
+                "X-ray": "Röntgen",
+                "Yoghurt": "Yoğurt",
+                "Zebra": "Zebra",
+                "Zoo": "Hayvanat bahçesi"
+            },
+            "theme2": {
+                "Bag": "Çanta",
+                "Big": "Büyük",
+                "Black": "Siyah",
+                "Blackboard": "Kara tahta",
+                "Blue": "Mavi",
+                "Board": "Tahta",
+                "Book": "Kitap",
+                "Bookcase": "Kitaplık",
+                "Box": "Kutu",
+                "Break time": "Teneffüs",
+                "Brown": "Kahverengi",
+                "Cap": "Şapka (Kep)",
+                "Cat": "Kedi",
+                "Chair": "Sandalye",
+                "Chalk": "Tebeşir",
+                "Circle": "Daire içine almak",
+                "Classroom": "Sınıf",
+                "Clock": "Duvar saati",
+                "Close": "Kapatmak",
+                "Colour": "Boyamak / Renk",
+                "Come": "Gelmek",
+                "Computer": "Bilgisayar",
+                "Count": "Saymak",
+                "Crayon": "Pastel boya",
+                "Dark": "Koyu (renk) / Karanlık",
+                "Desk": "Sıra / Çalışma masası",
+                "Door": "Kapı",
+                "Draw": "Resim çizmek",
+                "Eight": "Sekiz",
+                "Eighteen": "On sekiz",
+                "Eleven": "On bir",
+                "Excuse me": "Affedersiniz",
+                "Exercise": "Alıştırma",
+                "Fifteen": "On beş",
+                "Find": "Bulmak",
+                "Five": "Beş",
+                "Four": "Dört",
+                "Fourteen": "On dört",
+                "Glue": "Yapıştırıcı",
+                "Green": "Yeşil",
+                "Hello": "Merhaba",
+                "Help": "Yardım etmek",
+                "Hi": "Selam",
+                "How many": "Kaç tane",
+                "Listen": "Dinlemek",
+                "Look": "Bakmak",
+                "Match": "Eşleştirmek",
+                "Need": "İhtiyaç duymak",
+                "Nine": "Dokuz",
+                "Nineteen": "On dokuz",
+                "Notebook": "Defter",
+                "Object": "Nesne",
+                "One": "Bir",
+                "Open": "Açmak",
+                "Orange": "Turuncu",
+                "Pass": "Uzatmak",
+                "Pencil": "Kurşun kalem",
+                "Pencilcase": "Kalem kutusu",
+                "Picture": "Resim",
+                "Pink": "Pembe",
+                "Play": "Oynamak",
+                "Please": "Lütfen",
+                "Point": "İşaret etmek",
+                "Purple": "Mor",
+                "Put": "Koymak",
+                "Quiet": "Sessiz",
+                "Raise": "(El) Kaldırmak",
+                "Ready": "Hazır",
+                "Red": "Kırmızı",
+                "Repeat": "Tekrar etmek",
+                "Rubber": "Silgi",
+                "Say": "Söylemek",
+                "Scissors": "Makas",
+                "Seven": "Yedi",
+                "Seventeen": "On yedi",
+                "Sharpener": "Kalemtıraş",
+                "Show": "Göstermek",
+                "Sit down": "Oturmak",
+                "Six": "Altı",
+                "Sixteen": "On altı",
+                "Smart board": "Akıllı tahta",
+                "Stand up": "Ayağa kalkmak",
+                "Student": "Öğrenci",
+                "Table": "Masa",
+                "Tablet": "Tablet",
+                "Teacher": "Öğretmen",
+                "Ten": "On",
+                "Thank you": "Teşekkür ederim",
+                "Thirteen": "On üç",
+                "Three": "Üç",
+                "Time": "Zaman",
+                "Turn": "Dönmek / Çevirmek",
+                "Twelve": "On iki",
+                "Twenty": "Yirmi",
+                "Two": "İki",
+                "Wait": "Beklemek",
+                "Wall": "Duvar",
+                "Well done": "Aferin",
+                "What": "Ne",
+                "White": "Beyaz",
+                "Whiteboard": "Beyaz tahta",
+                "Who": "Kim",
+                "Window": "Pencere",
+                "Write": "Yazmak",
+                "Yellow": "Sarı"
+            },
+            "theme3": {
+                "Age": "Yaş",
+                "Arm": "Kol",
+                "Baby": "Bebek",
+                "Ball": "Top",
+                "Beautiful": "Güzel",
+                "Big": "Büyük",
+                "Birthday": "Doğum günü",
+                "Black": "Siyah",
+                "Blond": "Sarışın (Erkek)",
+                "Blonde": "Sarışın (Kadın)",
+                "Blue": "Mavi",
+                "Body": "Vücut",
+                "Boots": "Bot / Çizme",
+                "Boy": "Erkek çocuk",
+                "Brown": "Kahverengi",
+                "Cake": "Pasta",
+                "Candle": "Mum",
+                "Character": "Karakter",
+                "Cheer up": "Neşelenmek",
+                "Clap": "Alkışlamak",
+                "Close": "Kapatmak",
+                "Cloth": "Kumaş / Giysi",
+                "Clothes": "Kıyafetler",
+                "Coat": "Mont / Palto",
+                "Cold": "Soğuk",
+                "Colour": "Renk",
+                "Dark": "Koyu / Karanlık",
+                "Day": "Gün",
+                "Dear": "Sevgili / Değerli",
+                "Dress": "Elbise",
+                "Ear": "Kulak",
+                "Eight": "Sekiz",
+                "Eighteen": "On sekiz",
+                "Eleven": "On bir",
+                "Eye": "Göz",
+                "Face": "Yüz",
+                "Family": "Aile",
+                "Fat": "Şişman",
+                "Fifteen": "On beş",
+                "Finger": "Parmak",
+                "Five": "Beş",
+                "Foot": "Ayak",
+                "Four": "Dört",
+                "Fourteen": "On dört",
+                "Friend": "Arkadaş",
+                "Gift": "Hediye",
+                "Girl": "Kız çocuk",
+                "Glasses": "Gözlük",
+                "Gloves": "Eldiven",
+                "Good": "İyi",
+                "Grandfather": "Büyükbaba",
+                "Grandmother": "Büyükanne",
+                "Great": "Harika",
+                "Green": "Yeşil",
+                "Grey": "Gri",
+                "Hair": "Saç",
+                "Hand": "El",
+                "Handsome": "Yakışıklı",
+                "Happy": "Mutlu",
+                "Hat": "Şapka",
+                "Have got / Has got": "Sahip olmak",
+                "He": "O (Erkek)",
+                "Head": "Baş / Kafa",
+                "Her": "Onun (Kadın)",
+                "Hi": "Selam",
+                "His": "Onun (Erkek)",
+                "Hot": "Sıcak",
+                "How many": "Kaç tane",
+                "How old": "Kaç yaşında",
+                "I": "Ben",
+                "Jacket": "Ceket",
+                "Knee": "Diz",
+                "Leg": "Bacak",
+                "Listen": "Dinlemek",
+                "Long": "Uzun",
+                "Look": "Bakmak",
+                "Man": "Adam",
+                "Mouth": "Ağız",
+                "My": "Benim",
+                "New": "Yeni",
+                "Nice": "Hoş / Güzel",
+                "Nine": "Dokuz",
+                "Nineteen": "On dokuz",
+                "Nose": "Burun",
+                "Old": "Yaşlı / Eski",
+                "One": "Bir",
+                "Open": "Açmak",
+                "Orange": "Turuncu",
+                "Party": "Parti",
+                "Pink": "Pembe",
+                "Play": "Oynamak",
+                "Please": "Lütfen",
+                "Point": "İşaret etmek",
+                "Puppet": "Kukla",
+                "Purple": "Mor",
+                "Put on": "Giymek",
+                "Rain": "Yağmur",
+                "Raining": "Yağmur yağıyor",
+                "Red": "Kırmızı",
+                "Scarf": "Atkı",
+                "Seven": "Yedi",
+                "Seventeen": "On yedi",
+                "She": "O (Kadın)",
+                "Shirt": "Gömlek",
+                "Shoes": "Ayakkabı",
+                "Short": "Kısa",
+                "Show": "Göstermek",
+                "Sing": "Şarkı söylemek",
+                "Sister": "Kız kardeş",
+                "Six": "Altı",
+                "Sixteen": "On altı",
+                "Small": "Küçük",
+                "Snow": "Kar",
+                "Snowing": "Kar yağıyor",
+                "Socks": "Çorap",
+                "Speak": "Konuşmak",
+                "Stand up": "Ayağa kalkmak",
+                "Sunday": "Pazar",
+                "Sweater": "Kazak",
+                "T-shirt": "Tişört",
+                "Tall": "Uzun",
+                "Ten": "On",
+                "Thank you": "Teşekkür ederim",
+                "Thirteen": "On üç",
+                "Three": "Üç",
+                "Today": "Bugün",
+                "Toe": "Ayak parmağı",
+                "Touch": "Dokunmak",
+                "Toy": "Oyuncak",
+                "Trousers": "Pantolon",
+                "Twelve": "On iki",
+                "Twenty": "Yirmi",
+                "Two": "İki",
+                "Umbrella": "Şemsiye",
+                "Very": "Çok",
+                "Walk": "Yürümek",
+                "Wear": "Giymek",
+                "Weather": "Hava durumu",
+                "Week": "Hafta",
+                "White": "Beyaz",
+                "Who": "Kim",
+                "Winter": "Kış",
+                "Woman": "Kadın",
+                "Year": "Yıl / Yaş",
+                "Yellow": "Sarı",
+                "You": "Sen",
+                "Young": "Genç",
+                "Your": "Senin"
+            },
+            "theme4": {
+                "Album": "Albüm",
+                "All right": "Pekala / Tamam",
+                "Aunt": "Teyze / Hala",
+                "Baby": "Bebek",
+                "Ball": "Top",
+                "Beautiful": "Güzel",
+                "Big": "Büyük",
+                "Black": "Siyah",
+                "Blond": "Sarışın (Erkek)",
+                "Blonde": "Sarışın (Kadın)",
+                "Blue": "Mavi",
+                "Body": "Vücut",
+                "Boy": "Erkek çocuk",
+                "Brother": "Erkek kardeş",
+                "Brown": "Kahverengi",
+                "Cake": "Kek / Pasta",
+                "Car": "Araba",
+                "Cat": "Kedi",
+                "Child": "Çocuk",
+                "Children": "Çocuklar",
+                "Circle": "Daire içine almak",
+                "Classroom": "Sınıf",
+                "Close": "Yakın / Kapatmak",
+                "Come": "Gelmek",
+                "Complete": "Tamamlamak",
+                "Dad": "Baba",
+                "Daughter": "Kız evlat",
+                "Day": "Gün",
+                "Dear": "Sevgili / Canım",
+                "Do": "Yapmak",
+                "Dog": "Köpek",
+                "Draw": "Çizmek",
+                "Eat": "Yemek",
+                "Eight": "Sekiz",
+                "Eye": "Göz",
+                "Family": "Aile",
+                "Father": "Baba",
+                "Find": "Bulmak",
+                "Four": "Dört",
+                "Friend": "Arkadaş",
+                "Garden": "Bahçe",
+                "Girl": "Kız çocuk",
+                "Glasses": "Gözlük",
+                "Good": "İyi",
+                "Grandfather": "Büyükbaba",
+                "Grandma": "Büyükanne (Kısa)",
+                "Grandmother": "Büyükanne",
+                "Grandpa": "Büyükbaba (Kısa)",
+                "Great": "Harika",
+                "Green": "Yeşil",
+                "Hair": "Saç",
+                "Hand": "El",
+                "Handsome": "Yakışıklı",
+                "Happy": "Mutlu",
+                "Has got": "Sahip (O)",
+                "Have got": "Sahip (Ben/Sen/Biz/Onlar)",
+                "He": "O (Erkek)",
+                "Hello": "Merhaba",
+                "Hi": "Selam",
+                "Home": "Ev",
+                "Honey": "Tatlım (Hitap)",
+                "House": "Ev",
+                "How": "Nasıl",
+                "Hungry": "Aç",
+                "Kid": "Çocuk",
+                "Lemon": "Limon",
+                "Listen": "Dinlemek",
+                "Long": "Uzun",
+                "Look": "Bakmak",
+                "Lovely": "Sevimli",
+                "Lunch": "Öğle yemeği",
+                "Lunchtime": "Öğle yemeği vakti",
+                "Man": "Adam",
+                "Match": "Eşleştirmek",
+                "Me": "Beni / Bana",
+                "Member": "Üye",
+                "Mother": "Anne",
+                "Mum": "Anne",
+                "My": "Benim",
+                "Name": "İsim",
+                "Nice": "Hoş / Güzel",
+                "Nine": "Dokuz",
+                "No": "Hayır",
+                "Old": "Yaşlı / Eski",
+                "One": "Bir",
+                "Orange": "Turuncu / Portakal",
+                "Park": "Park",
+                "Photo": "Fotoğraf",
+                "Picnic": "Piknik",
+                "Picture": "Resim",
+                "Play": "Oynamak",
+                "Read": "Okumak",
+                "Red": "Kırmızı",
+                "Say": "Söylemek",
+                "She": "O (Kadın)",
+                "Short": "Kısa",
+                "Sister": "Kız kardeş",
+                "Small": "Küçük",
+                "Son": "Erkek evlat",
+                "Sorry": "Üzgünüm",
+                "Talk": "Konuşmak",
+                "Tall": "Uzun",
+                "Ten": "On",
+                "That": "Şu",
+                "The": "(Belirtme eki)",
+                "They": "Onlar",
+                "This": "Bu",
+                "Tree": "Ağaç",
+                "Two": "İki",
+                "Uncle": "Amca / Dayı",
+                "Very": "Çok",
+                "We": "Biz",
+                "Who": "Kim",
+                "Woman": "Kadın",
+                "Write": "Yazmak",
+                "Yes": "Evet",
+                "You": "Sen",
+                "Young": "Genç",
+                "Your": "Senin"
+            },
+            "theme5": {
+                "And": "Ve",
+                "Animal": "Hayvan",
+                "Balcony": "Balkon",
+                "Bathroom": "Banyo",
+                "Beak": "Gaga",
+                "Beautiful": "Güzel",
+                "Bed": "Yatak",
+                "Bedroom": "Yatak odası",
+                "Big": "Büyük",
+                "Bird": "Kuş",
+                "Blue": "Mavi",
+                "Box": "Kutu",
+                "Boy": "Erkek çocuk",
+                "Brother": "Erkek kardeş",
+                "Car": "Araba",
+                "Cat": "Kedi",
+                "Chair": "Sandalye",
+                "Claw": "Pençe",
+                "Coffee table": "Sehpa",
+                "Come": "Gelmek",
+                "Cook": "Pişirmek",
+                "Cucumber": "Salatalık",
+                "Dad": "Baba",
+                "Dance": "Dans etmek",
+                "Dining room": "Yemek odası",
+                "Dog": "Köpek",
+                "Doll": "Oyuncak bebek",
+                "Dollhouse": "Oyuncak bebek evi",
+                "Door": "Kapı",
+                "Doorbell": "Kapı zili",
+                "Eat": "Yemek yemek",
+                "Family": "Aile",
+                "Father": "Baba",
+                "Find": "Bulmak",
+                "Fish": "Balık",
+                "Flower": "Çiçek",
+                "Four": "Dört",
+                "Friend": "Arkadaş",
+                "Frog": "Kurbağa",
+                "Funny": "Komik",
+                "Garage": "Garaj",
+                "Garden": "Bahçe",
+                "Girl": "Kız çocuk",
+                "Go": "Gitmek",
+                "Goldfish": "Japon balığı",
+                "Grandfather": "Büyükbaba",
+                "Grandma": "Büyükanne",
+                "Grandmother": "Büyükanne",
+                "Grandpa": "Büyükbaba",
+                "Green": "Yeşil",
+                "Happy": "Mutlu",
+                "Have got": "Sahip olmak",
+                "He": "O (Erkek)",
+                "Hello": "Merhaba",
+                "Here": "Burada",
+                "Home": "Ev / Yuva",
+                "House": "Ev (Bina)",
+                "In": "İçinde",
+                "Is": "-dir / -dır",
+                "Kitchen": "Mutfak",
+                "Lamp": "Lamba",
+                "Library": "Kütüphane",
+                "Like": "Sevmek",
+                "Little": "Küçük / Ufak",
+                "Living room": "Oturma odası",
+                "Look": "Bakmak",
+                "Lovely": "Sevimli / Hoş",
+                "Mother": "Anne",
+                "Mouse": "Fare",
+                "Mum": "Anne",
+                "My": "Benim",
+                "Name": "İsim",
+                "Neighbourhood": "Mahalle / Çevre",
+                "Nice": "Hoş / Güzel",
+                "No": "Hayır",
+                "On": "Üstünde",
+                "One": "Bir",
+                "Open": "Açık / Açmak",
+                "Orange": "Turuncu",
+                "Parrot": "Papağan",
+                "Paw": "Pati",
+                "Pet": "Evcil hayvan",
+                "Picture": "Resim",
+                "Pink": "Pembe",
+                "Play": "Oynamak",
+                "Please": "Lütfen",
+                "Pupil": "Öğrenci",
+                "Question": "Soru",
+                "Rabbit": "Tavşan",
+                "Read": "Okumak",
+                "Really": "Gerçekten mi?",
+                "Room": "Oda",
+                "Say": "Söylemek",
+                "Scissors": "Makas",
+                "See": "Görmek",
+                "Seven": "Yedi",
+                "She": "O (Kadın)",
+                "Sister": "Kız kardeş",
+                "Sitting room": "Oturma odası",
+                "Sleep": "Uyumak",
+                "Small": "Küçük",
+                "Sofa": "Kanepe",
+                "Some": "Biraz / Bazı",
+                "Table": "Masa",
+                "Tail": "Kuyruk",
+                "Talk": "Konuşmak",
+                "Television (TV)": "Televizyon",
+                "The": "(Belirtme eki)",
+                "There are": "Vardır (Çoğul)",
+                "There is": "Vardır (Tekil)",
+                "They": "Onlar",
+                "Three": "Üç",
+                "Today": "Bugün",
+                "Toy": "Oyuncak",
+                "Tree": "Ağaç",
+                "Two": "İki",
+                "Umbrella": "Şemsiye",
+                "Uniform": "Üniforma",
+                "Very": "Çok",
+                "Wall": "Duvar",
+                "Wash": "Yıkamak",
+                "Water": "Su",
+                "We": "Biz",
+                "Welcome": "Hoş geldiniz",
+                "Where": "Nerede",
+                "Whiskers": "Kedi/Tavşan Bıyığı",
+                "White": "Beyaz",
+                "Who": "Kim",
+                "Window": "Pencere",
+                "With": "İle",
+                "Yes": "Evet",
+                "You": "Sen / Siz",
+                "Your": "Senin / Sizin"
+            },
+            "theme6": {
+                "And": "Ve",
+                "Any": "Hiç",
+                "Apple": "Elma",
+                "Apples": "Elmalar",
+                "Are": "-dır / -dir (Çoğul)",
+                "Ayran": "Ayran",
+                "Banana": "Muz",
+                "Bananas": "Muzlar",
+                "Basket": "Sepet",
+                "Bean": "Fasulye",
+                "Beans": "Fasulyeler",
+                "Box": "Kutu",
+                "Bread": "Ekmek",
+                "Breakfast": "Kahvaltı",
+                "Broccoli": "Brokoli",
+                "Can": "-ebilmek (İzin/Yetenek)",
+                "Canteen": "Kantin",
+                "Carrot": "Havuç",
+                "Carrots": "Havuçlar",
+                "Cauliflower": "Karnabahar",
+                "Cherries": "Kirazlar",
+                "Cherry": "Kiraz",
+                "Chicken": "Tavuk",
+                "City": "Şehir",
+                "Coffee": "Kahve",
+                "Cold": "Soğuk",
+                "Courgette": "Kabak",
+                "Cucumber": "Salatalık",
+                "Cucumbers": "Salatalıklar",
+                "Delicious": "Lezzetli",
+                "Dinner": "Akşam yemeği",
+                "Do": "Yapmak (Soru eki)",
+                "Don't": "Yapmamak (Olumsuzluk)",
+                "Drink": "İçmek / İçecek",
+                "Eat": "Yemek yemek",
+                "Egg": "Yumurta",
+                "Eggs": "Yumurtalar",
+                "Enjoy": "Tadını çıkarmak",
+                "Festival": "Festival",
+                "Fish": "Balık",
+                "Fridge": "Buzdolabı",
+                "Fruit": "Meyve",
+                "Fruits": "Meyveler",
+                "Garlic": "Sarımsak",
+                "Grape": "Üzüm",
+                "Grapes": "Üzümler",
+                "Have": "Sahip olmak / Almak",
+                "Healthy": "Sağlıklı",
+                "Here": "Burada / İşte",
+                "Hungry": "Aç",
+                "Hurray": "Yaşasın",
+                "Ice cream": "Dondurma",
+                "In": "İçinde",
+                "Kitchen": "Mutfak",
+                "Lettuce": "Marul",
+                "Life": "Yaşam / Hayat",
+                "Like": "Sevmek",
+                "List": "Liste",
+                "Lunch": "Öğle yemeği",
+                "Lunch box": "Beslenme çantası",
+                "Lunch hall": "Yemekhane",
+                "Meal": "Öğün / Yemek",
+                "Meat": "Et",
+                "Milk": "Süt",
+                "Mix": "Karıştırmak",
+                "Need": "İhtiyaç duymak",
+                "Orange": "Portakal",
+                "Oranges": "Portakallar",
+                "Pass": "Uzatmak",
+                "Pear": "Armut",
+                "Pears": "Armutlar",
+                "Pepper": "Biber",
+                "Peppers": "Biberler",
+                "Please": "Lütfen",
+                "Potato": "Patates",
+                "Potatoes": "Patatesler",
+                "Salad": "Salata",
+                "Shopping": "Alışveriş",
+                "Some": "Biraz / Bazı",
+                "Spinach": "Ispanak",
+                "Strawberries": "Çilekler",
+                "Strawberry": "Çilek",
+                "Sure": "Elbette",
+                "Tea": "Çay",
+                "There are": "Vardır (Çoğul)",
+                "There is": "Vardır (Tekil)",
+                "Thirsty": "Susamış",
+                "Time": "Zaman",
+                "Tomato": "Domates",
+                "Tomatoes": "Domatesler",
+                "Vegetable": "Sebze",
+                "Vegetables": "Sebzeler",
+                "Wash": "Yıkamak",
+                "Water": "Su",
+                "Welcome": "Rica etmek / Hoş geldiniz",
+                "Window": "Pencere",
+                "World": "Dünya",
+                "Yoghurt": "Yoğurt",
+                "Yummy": "Nefis / Leziz",
+                "Zebra": "Zebra",
+                "Zucchini": "Kabak"
+            }
+        };
+
+        const unitNames = {
+            "instructional_words": "Instructions",
+            "theme1": "Unit 1: School Life",
+            "theme2": "Unit 2: Classroom Life",
+            "theme3": "Unit 3: Personal Life",
+            "theme4": "Unit 4: Family Life",
+            "theme5": "Unit 5: Homes and Neighbourhoods",
+            "theme6": "Unit 6: Life in the City"
+        };
+
+        const appState = {
+            currentScreen: 'userForm',
+            userInfo: null,
+            selectedUnit: null,
+            testData: {
+                currentQuestionIndex: 0,
+                score: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                userAnswers: [],
+                startTime: null,
+                endTime: null,
+                timeSpent: 0,
+                timerInterval: null,
+                timeLimit: 15 * 60,
+                currentQuestions: []
+            }
+        };
+
+        // DOM Elementleri
+        const userForm = document.getElementById('userForm');
+        const mainPage = document.getElementById('mainPage');
+        const testPage = document.getElementById('testPage');
+        const reportPage = document.getElementById('reportPage');
+        const userInfoForm = document.getElementById('userInfoForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        
+        const displayUserName = document.getElementById('displayUserName');
+        const displayUserClass = document.getElementById('displayUserClass');
+        const reportUserName = document.getElementById('reportUserName');
+        
+        const correctCount = document.getElementById('correctCount');
+        const wrongCount = document.getElementById('wrongCount');
+        const timeLeft = document.getElementById('timeLeft');
+        const currentQuestion = document.getElementById('currentQuestion');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const unitTitle = document.getElementById('unitTitle');
+        
+        const reportCorrect = document.getElementById('reportCorrect');
+        const reportWrong = document.getElementById('reportWrong');
+        const reportScore = document.getElementById('reportScore');
+        const reportTime = document.getElementById('reportTime');
+        const mistakesList = document.getElementById('mistakesList');
+        
+        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+        const newTestBtn = document.getElementById('newTestBtn');
+
+        // Yardımcı Fonksiyonlar
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showScreen(screenName) {
+            userForm.classList.add('hidden');
+            mainPage.classList.add('hidden');
+            testPage.classList.add('hidden');
+            reportPage.classList.add('hidden');
+            
+            if(screenName === 'mainPage') {
+                updateUserInfoDisplay();
+                updateUnitCardWordCounts();
+            }
+            
+            document.getElementById(screenName).classList.remove('hidden');
+            appState.currentScreen = screenName;
+        }
+
+        function updateUserInfoDisplay() {
+            document.getElementById('displayUserName').textContent = `${appState.userInfo.firstName} ${appState.userInfo.lastName}`;
+            document.getElementById('displayUserClass').textContent = `${appState.userInfo.className} - ${appState.userInfo.studentNumber}`;
+            document.getElementById('reportUserName').textContent = `${appState.userInfo.firstName} ${appState.userInfo.lastName}`;
+        }
+
+        function updateUnitCardWordCounts() {
+            const startTestButtons = document.querySelectorAll('.start-test-btn');
+            startTestButtons.forEach(btn => {
+                let unitKey = btn.dataset.unit;
+                const dataKey = unitKey === 'instructions' ? 'instructional_words' : unitKey;
+                const words = sinifData[dataKey];
+                if (words) {
+                    const wordCount = Object.keys(words).length;
+                    const unitCard = btn.closest('.unit-card');
+                    if (unitCard) {
+                        const statValueDiv = unitCard.querySelector('.stat-item:first-child .stat-value');
+                        if (statValueDiv) {
+                            statValueDiv.textContent = wordCount;
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateQuestionsForUnit(unitKey) {
+            const rawWords = sinifData[unitKey];
+            if (!rawWords) {
+                console.error("Unit key not found:", unitKey);
+                return [];
+            }
+            const allKeys = Object.keys(rawWords);
+            let selectedKeys = shuffleArray([...allKeys]).slice(0, Math.min(20, allKeys.length));
+            
+            return selectedKeys.map(englishWord => {
+                const correctMeaning = rawWords[englishWord];
+                let distractors = Object.values(rawWords).filter(m => m !== correctMeaning);
+                distractors = shuffleArray(distractors).slice(0, 3);
+                let options = shuffleArray([correctMeaning, ...distractors]);
+                return {
+                    question: `"${englishWord}" Wordssinin Türkçe karşılığı nedir?`,
+                    englishWord: englishWord,
+                    options: options,
+                    correctAnswer: options.indexOf(correctMeaning),
+                    correctMeaning: correctMeaning
+                };
+            });
+        }
+
+        function startTest(unitKey) {
+            appState.selectedUnit = unitKey;
+            const questions = generateQuestionsForUnit(unitKey);
+            if (questions.length === 0) {
+                alert("Bu ünitede yeterli Words bulunamadı!");
+                return;
+            }
+            
+            appState.testData = {
+                currentQuestionIndex: 0,
+                score: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                userAnswers: [],
+                startTime: new Date(),
+                endTime: null,
+                timeSpent: 0,
+                timerInterval: null,
+                timeLimit: 15 * 60,
+                currentQuestions: questions
+            };
+            
+            showScreen('testPage');
+            startTimer();
+            loadQuestion();
+            updateCounters();
+            document.getElementById('unitTitle').textContent = unitNames[unitKey] || unitKey;
+        }
+
+        function startTimer() {
+            clearInterval(appState.testData.timerInterval);
+            appState.testData.timerInterval = setInterval(() => {
+                const elapsed = Math.floor((new Date() - appState.testData.startTime) / 1000);
+                appState.testData.timeSpent = elapsed;
+                const min = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                const sec = (elapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timeLeft').textContent = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const q = appState.testData.currentQuestions[appState.testData.currentQuestionIndex];
+            const idx = appState.testData.currentQuestionIndex;
+            const total = appState.testData.currentQuestions.length;
+            
+            document.getElementById('currentQuestion').textContent = `Soru ${idx + 1}/${total}`;
+            document.getElementById('questionText').innerHTML = q.question.replace(/"([^"]+)"/, '"<span style="color:var(--primary-blue)">$1</span>"');
+            
+            document.getElementById('progressPercent').textContent = `%${Math.round((idx / total) * 100)}`;
+            document.getElementById('progressFill').style.width = `${(idx / total) * 100}%`;
+            
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerHTML = `<div class="option-letter">${letters[i]}</div><span>${opt}</span>`;
+                div.onclick = () => handleAnswer(i, div);
+                container.appendChild(div);
+            });
+        }
+
+        function handleAnswer(selectedIndex, element) {
+            const q = appState.testData.currentQuestions[appState.testData.currentQuestionIndex];
+            const correctIndex = q.correctAnswer;
+            
+            document.querySelectorAll('.option').forEach(el => el.style.pointerEvents = 'none');
+            appState.testData.userAnswers[appState.testData.currentQuestionIndex] = selectedIndex;
+            
+            if (selectedIndex === correctIndex) {
+                playCorrectSound();
+                element.classList.add('correct');
+                appState.testData.correctAnswers++;
+                appState.testData.score += (100 / appState.testData.currentQuestions.length);
+            } else {
+                playWrongSound();
+                element.classList.add('wrong');
+                appState.testData.wrongAnswers++;
+                document.querySelectorAll('.option')[correctIndex].classList.add('correct');
+            }
+            
+            updateCounters();
+            
+            setTimeout(() => {
+                if (appState.testData.currentQuestionIndex < appState.testData.currentQuestions.length - 1) {
+                    appState.testData.currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function updateCounters() {
+            document.getElementById('correctCount').textContent = appState.testData.correctAnswers;
+            document.getElementById('wrongCount').textContent = appState.testData.wrongAnswers;
+        }
+
+        function finishTest() {
+            clearInterval(appState.testData.timerInterval);
+            appState.testData.endTime = new Date();
+            sendResultToGoogleSheets();
+            showScreen('reportPage');
+            generateReport();
+        }
+
+        function generateReport() {
+            document.getElementById('reportCorrect').textContent = appState.testData.correctAnswers;
+            document.getElementById('reportWrong').textContent = appState.testData.wrongAnswers;
+            document.getElementById('reportScore').textContent = `%${Math.round(appState.testData.score)}`;
+            
+            const min = Math.floor(appState.testData.timeSpent / 60).toString().padStart(2, '0');
+            const sec = (appState.testData.timeSpent % 60).toString().padStart(2, '0');
+            document.getElementById('reportTime').textContent = `${min}:${sec}`;
+            document.getElementById('reportDate').textContent = new Date().toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            const mistakesContainer = document.getElementById('mistakesList');
+            mistakesContainer.innerHTML = '';
+            
+            let hasMistakes = false;
+            appState.testData.currentQuestions.forEach((q, idx) => {
+                if (appState.testData.userAnswers[idx] !== q.correctAnswer) {
+                    hasMistakes = true;
+                    const item = document.createElement('div');
+                    item.className = 'mistake-item';
+                    item.innerHTML = `
+                        <div class="mistake-word">${q.englishWord}</div>
+                        <div class="mistake-meaning">Doğru: ${q.correctMeaning}</div>
+                        <div class="mistake-explanation">Cevabınız: ${q.options[appState.testData.userAnswers[idx]] || 'Boş'}</div>
+                    `;
+                    mistakesContainer.appendChild(item);
+                }
+            });
+            
+            if (!hasMistakes) {
+                mistakesContainer.innerHTML = '<div style="text-align:center; padding:20px; width:100%; color:var(--correct-green);"><h3>Mükemmel! Hiç hata yapmadınız. 🎉</h3></div>';
+            }
+        }
+
+        function sendResultToGoogleSheets() {
+            const data = {
+                OgrenciNo: appState.userInfo.studentNumber,
+                OgrenciAdi: `${appState.userInfo.firstName} ${appState.userInfo.lastName}`,
+                Sube: appState.userInfo.className,
+                TestTuru: "Çoktan Seçmeli",
+                Tema: unitNames[appState.selectedUnit],
+                DogruSayisi: appState.testData.correctAnswers,
+                ToplamSoru: appState.testData.currentQuestions.length,
+                BasariYuzdesi: Math.round(appState.testData.score),
+                HataYapilanWordsler: appState.testData.currentQuestions
+                    .filter((q, i) => appState.testData.userAnswers[i] !== q.correctAnswer)
+                    .map(q => `${q.englishWord} (${q.correctMeaning})`)
+                    .join('; ')
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(e => console.error(e));
+        }
+
+        // --- GÖRSEL KAYIPSIZ PDF OLUŞTURMA (RAPOR) ---
+        downloadPdfBtn.addEventListener('click', async () => {
+            const loading = document.getElementById('loadingOverlay');
+            loading.classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Rapor PDF Hazırlanıyor...';
+
+            const element = document.getElementById('reportContentToPrint');
+            
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: '#FFFFFF',
+                    scrollY: 0
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 190; 
+                const pageHeight = 295; 
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 10; 
+
+                doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight; 
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 10, position + 10, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                doc.save(`Rapor_${appState.userInfo.studentNumber}.pdf`);
+            } catch (error) {
+                console.error(error);
+                alert("PDF oluşturulamadı.");
+            } finally {
+                loading.classList.add('hidden');
+            }
+        });
+
+        // --- 4x8 YENİ TASARIM KELİME KARTI OLUŞTURMA ---
+        async function downloadFlashcards(unitKey) {
+            const loading = document.getElementById('loadingOverlay');
+            loading.classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Kartlar Hazırlanıyor...';
+
+            const words = Object.entries(sinifData[unitKey]);
+            if (!words || words.length === 0) {
+                alert("Bu ünite için Words bulunamadı!");
+                loading.classList.add('hidden');
+                return;
+            }
+
+            const container = document.getElementById('flashcardContainer');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            // 4 sütun x 8 satır = 32 kutucuk
+            // Her Words çifti 2 kutucuk kaplar (İngilizce + Türkçe)
+            const PAIRS_PER_PAGE = 16;
+            const totalPages = Math.ceil(words.length / PAIRS_PER_PAGE);
+
+            try {
+                for (let i = 0; i < totalPages; i++) {
+                    const chunk = words.slice(i * PAIRS_PER_PAGE, (i + 1) * PAIRS_PER_PAGE);
+                    
+                    let pageHTML = `<div class="a4-page">`;
+                    
+                    // Önce İngilizce (Mavi), Sonra Türkçe (Beyaz Kesikli)
+                    chunk.forEach(([english, turkish]) => {
+                        // KART 1: İNGİLİZCE
+                        pageHTML += `
+                            <div class="flashcard-cell card-english">
+                                ${english}
+                                <span class="unit-tag">${unitKey}</span>
+                            </div>
+                        `;
+                        // KART 2: TÜRKÇE
+                        pageHTML += `
+                            <div class="flashcard-cell card-turkish">
+                                ${turkish}
+                            </div>
+                        `;
+                    });
+                    
+                    // Sayfa sonu boşluklarını doldur (düzen bozulmasın)
+                    const remainingPairs = PAIRS_PER_PAGE - chunk.length;
+                    // Her eksik çift için 2 boş div ekle
+                    for(let j=0; j < remainingPairs * 2; j++){
+                        pageHTML += `<div style="border:none;"></div>`;
+                    }
+
+                    pageHTML += `</div>`;
+                    container.innerHTML = pageHTML;
+
+                    const canvas = await html2canvas(container.querySelector('.a4-page'), {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#FFFFFF'
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = 210; 
+                    const imgHeight = 297; 
+
+                    if (i > 0) doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+
+                doc.save(`${unitKey}_Words_Kartlari.pdf`);
+
+            } catch (error) {
+                console.error(error);
+                alert("Kartlar oluşturulamadı.");
+            } finally {
+                loading.classList.add('hidden');
+                container.innerHTML = '';
+            }
+        }
+
+        // Event Listeners
+        userInfoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            appState.userInfo = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                className: document.getElementById('className').value,
+                studentNumber: document.getElementById('studentNumber').value
+            };
+            showScreen('mainPage');
+        });
+
+        // Tüm Start Test butonlarına event listener ekle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.start-test-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const unitKey = this.getAttribute('data-unit');
+                    startTest(unitKey);
+                });
+            });
+        });
+
+        newTestBtn.addEventListener('click', () => showScreen('mainPage'));
+        
+        // Sayfa yüklendiğinde event listener'ları kur
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start test butonları
+            document.querySelectorAll('.start-test-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const unitKey = this.getAttribute('data-unit');
+                    startTest(unitKey);
+                });
+            });
+            
+            // Diğer event listener'lar
+            userInfoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                appState.userInfo = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    className: document.getElementById('className').value,
+                    studentNumber: document.getElementById('studentNumber').value
+                };
+                showScreen('mainPage');
+            });
+            
+            newTestBtn.addEventListener('click', () => showScreen('mainPage'));
+        });
+    </script>
+</body>
+</html>
