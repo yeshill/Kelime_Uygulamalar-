@@ -141,10 +141,12 @@
             height: 100%; 
             text-decoration: none;
             color: var(--text-dark);
+            opacity: 1 !important; /* ÖNEMLİ: Kartlar her zaman görünür olacak */
+            visibility: visible !important; /* ÖNEMLİ: Kartlar her zaman görünür olacak */
         }
 
         .grade-card:hover { 
-            transform: translateY(-10px); 
+            transform: translateY(-10px) scale(1.02); 
             box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
             text-decoration: none;
             color: var(--text-dark);
@@ -178,6 +180,11 @@
         .grade-icon { 
             font-size: 3.5rem; 
             margin-bottom: 20px; 
+            transition: transform 0.3s ease;
+        }
+        
+        .grade-card:hover .grade-icon {
+            transform: scale(1.1);
         }
         
         .grade-title { 
@@ -212,7 +219,7 @@
         .grade-4 .stat-value { color: var(--primary-purple); }
         .grade-5 .stat-value { color: var(--primary-orange); }
         .grade-6 .stat-value { color: var(--primary-pink); }
-        .grade-7 .stat_value { color: var(--primary-teal); }
+        .grade-7 .stat-value { color: var(--primary-teal); }
         
         .grade-features { 
             margin-top: auto; 
@@ -300,15 +307,15 @@
             100% { background-position: 40px 0; } 
         }
         
-        @keyframes slideIn { 
-            0% { opacity: 0; transform: translateY(20px); } 
-            100% { opacity: 1; transform: translateY(0); } 
-        }
-        
-        @keyframes pulse { 
-            0% { transform: scale(1); } 
-            50% { transform: scale(1.05); } 
-            100% { transform: scale(1); } 
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         /* --- RESPONSİVE TASARIM --- */
@@ -610,18 +617,20 @@
     </footer>
     
     <script>
-        // Kartlara hover animasyonu ekle
+        // Kartlara fade-in animasyonu ekle
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.grade-card');
             
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.animation = 'pulse 0.5s ease';
-                });
+            // Her karta sırayla animasyon uygula
+            cards.forEach((card, index) => {
+                // Başlangıçta opacity: 0 olmasın
+                card.style.opacity = '1';
+                card.style.visibility = 'visible';
                 
-                card.addEventListener('mouseleave', function() {
-                    this.style.animation = '';
-                });
+                // Sırayla animasyon için delay ekle
+                setTimeout(() => {
+                    card.style.animation = `fadeInUp 0.5s ease ${index * 0.1}s forwards`;
+                }, 100);
             });
             
             // Kartlara tıklama animasyonu
@@ -634,14 +643,6 @@
                     }, 150);
                 });
             });
-            
-            // Sayfa yüklendiğinde kartları animasyonla göster
-            setTimeout(() => {
-                cards.forEach((card, index) => {
-                    card.style.animation = `slideIn 0.5s ease ${index * 0.1}s forwards`;
-                    card.style.opacity = '0';
-                });
-            }, 100);
         });
     </script>
 </body>
