@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. Sınıf İngilizce LGS - Unit 1 Friendship Detaylı Fasikül</title>
+    <style>
+        /* STREAMING_CHUNK: Initializing document structure and PDF-optimized CSS */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+        :root {
+            --primary-dark: #1a252f;
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e74c3c;
+            --accent-light: #fadbd8;
+            --success: #27ae60;
+            --success-light: #d5f5e3;
+            --warning: #f39c12;
+            --warning-light: #fdebd0;
+            --bg-color: #f4f6f7;
+            --white: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important; /* Forces background colors to print */
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* PDF Page Simulation */
+        .page {
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            background-color: var(--white);
+            padding: 20mm;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            position: relative;
+            border-radius: 5px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Cover Page Styles */
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 4px solid var(--primary);
+            padding: 40px;
+        }
+
+        .cover-title {
+            font-size: 3.5rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .cover-subtitle {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .cover-badge {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 50px;
+        }
+
+        /* Content Styles */
+        .section-title {
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        .sub-title {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin-top: 25px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        /* Lists & Tables */
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.05rem;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        tr:nth-child(even) { background-color: #f9fbfd; }
+
+        /* Custom Boxes */
+        .grammar-box {
+            background-color: #ebf5fb;
+            border: 1px solid #d6eaf8;
+            border-left: 5px solid #3498db;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .grammar-formula {
+            display: inline-block;
+            background-color: var(--white);
+            padding: 8px 15px;
+            border: 2px dashed #3498db;
+            color: var(--primary-dark);
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .lgs-tip {
+            background-color: var(--warning-light);
+            border: 1px solid #f8c471;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .lgs-tip-title {
+            color: #d35400;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .lgs-tip-title::before {
+            content: "🎯";
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Vocabulary Badges */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .vocab-item {
+            background: var(--white);
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .vocab-en { font-weight: bold; color: var(--primary); }
+        .vocab-tr { color: var(--text-muted); font-style: italic; }
+
+        .good-trait { border-left: 4px solid var(--success); }
+        .bad-trait { border-left: 4px solid var(--accent); }
+
+        /* Invitation Card Analysis */
+        .invitation-card {
+            background: #fff9e6;
+            border: 2px dashed #d4ac0d;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 30px auto;
+            width: 80%;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .inv-label {
+            position: absolute;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Question Styles */
+        .question-box {
+            border: 1px solid #bdc3c7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            background-color: var(--white);
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .solution-box {
+            background-color: #eaeded;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background-color: transparent;
+                padding: 0;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+                page-break-after: always;
+            }
+            /* Prevent breaking inside important elements */
+            .grammar-box, .lgs-tip, table, .question-box, .invitation-card {
+                page-break-inside: avoid;
+            }
+            h2 {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STREAMING_CHUNK: Building cover page and introduction -->
+    <!-- PAGE 1: COVER -->
+    <div class="page cover-page">
+        <h1 class="cover-title">8. SINIF İNGİLİZCE</h1>
+        <h2 class="cover-subtitle">UNIT 1: FRIENDSHIP</h2>
+        <div class="cover-badge">LGS FULL TEKRAR FASİKÜLÜ</div>
+        
+        <div style="text-align: left; width: 100%; max-width: 500px; margin-top: 50px;">
+            <h3 style="color: var(--secondary); border-bottom: 2px solid var(--accent); padding-bottom: 5px;">Bu Fasikülde Neler Var?</h3>
+            <ul style="font-size: 1.2rem; line-height: 1.8;">
+                <li>Kritik Kelime Bilgisi (Personal Traits)</li>
+                <li>Making Suggestions (Öneride Bulunma)</li>
+                <li>Accepting & Refusing (Kabul ve Ret)</li>
+                <li>Making Excuses (Mazeret Bildirme)</li>
+                <li>Invitation Card (Davetiye) Analizi</li>
+                <li>LGS Taktikleri ve Örnek Sorular</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: auto; color: var(--text-muted); font-size: 0.9rem;">
+            PDF Çıktısına Uygun Tasarlanmıştır - Başarılar Dileriz!
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: Adding essential Unit 1 vocabulary tables -->
+    <!-- PAGE 2: VOCABULARY & INTRODUCTION -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 1: Üniteye Giriş ve Kritik Kelimeler</h2>
+        <p>Sevgili LGS Öğrencisi, Friendship (Arkadaşlık) ünitesinde başarılı olmanın ilk kuralı, arkadaşlık özelliklerini ifade eden sıfatları iyi bilmektir. LGS sorularında kişilerin özellikleri verilip, onlarla iyi anlaşıp anlaşılamayacağı sorulur.</p>
+
+        <h3 class="sub-title">1. Personal Traits (Kişisel Özellikler)</h3>
+        
+        <h4>A. Good / Positive Traits (İyi Özellikler)</h4>
+        <p>Bir <strong>"true friend" (gerçek arkadaş)</strong> veya <strong>"best friend" (en iyi arkadaş)</strong> bu özelliklere sahip olmalıdır:</p>
+        
+        <div class="vocab-grid">
+            <div class="vocab-item good-trait"><span class="vocab-en">Honest</span><span class="vocab-tr">Dürüst (Never tells lies)</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Generous</span><span class="vocab-tr">Cömert (Shares everything)</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Supportive</span><span class="vocab-tr">Destekleyici (Backs up)</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Reliable / Trustworthy</span><span class="vocab-tr">Güvenilir (Keeps secrets)</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Tactful</span><span class="vocab-tr">Nazik, düşünceli</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Loyal</span><span class="vocab-tr">Sadık</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Helpful</span><span class="vocab-tr">Yardımsever</span></div>
+            <div class="vocab-item good-trait"><span class="vocab-en">Amusing / Entertaining</span><span class="vocab-tr">Eğlenceli (Makes people smile)</span></div>
+        </div>
+
+        <h4>B. Bad / Negative Traits (Kötü Özellikler)</h4>
+        <p>Bu özelliklere sahip kişilerle genellikle tartışılır <strong>(argue)</strong> veya iyi geçinilmez <strong>(don't get on well)</strong>.</p>
+        
+        <div class="vocab-grid">
+            <div class="vocab-item bad-trait"><span class="vocab-en">Arrogant</span><span class="vocab-tr">Kibirli</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Selfish</span><span class="vocab-tr">Bencil (Thinks only himself)</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Jealous</span><span class="vocab-tr">Kıskanç</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Aggressive</span><span class="vocab-tr">Sinirli, saldırgan</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Stubborn</span><span class="vocab-tr">İnatçı (Never changes mind)</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Sneaky</span><span class="vocab-tr">Sinsi</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Unreliable</span><span class="vocab-tr">Güvenilmez (Tells secrets to others)</span></div>
+            <div class="vocab-item bad-trait"><span class="vocab-en">Mean</span><span class="vocab-tr">Cimri / Kaba</span></div>
+        </div>
+
+        <div class="lgs-tip">
+            <div class="lgs-tip-title">LGS Eş Anlamlılar (Synonyms) Sırrı</div>
+            LGS, kelimelerin birebir Türkçesini değil, İngilizce açıklamalarını veya eş anlamlılarını sorar. Bu üçlüyü <strong>ASLA</strong> unutma:<br><br>
+            <strong>1. Trust = Count on = Rely on</strong> (Güvenmek)<br>
+            <strong>2. Back up = Support = Help</strong> (Desteklemek, arka çıkmak)<br>
+            <strong>3. Get on well with = Have a good relationship</strong> (İyi geçinmek)
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: Detailing suggestion patterns -->
+    <!-- PAGE 3: GRAMMAR - SUGGESTIONS -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 2: Making Suggestions (Öneride Bulunma)</h2>
+        <p>Diyalogların ve davetiyelerin başlangıç noktasıdır. Karşımızdakine bir eylem veya nesne teklif ederken 5 ana kalıp kullanırız.</p>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">1. WOULD YOU LIKE ... ? (İster misin?)</h3>
+            <p>En resmi ve en çok kullanılan kalıptır. İki farklı kullanımı vardır:</p>
+            <div class="grammar-formula">Would you like + İsim?</div>
+            <ul>
+                <li>Would you like <strong>some cookies</strong>? <em>(Biraz kurabiye ister misin?)</em></li>
+                <li>Would you like <strong>a cup of tea</strong>? <em>(Bir fincan çay ister misin?)</em></li>
+            </ul>
+            <div class="grammar-formula">Would you like TO + Fiil (Yalın)?</div>
+            <ul>
+                <li>Would you like <strong>to watch</strong> a movie? <em>(Film izlemek ister misin?)</em></li>
+                <li>Would you like <strong>to join</strong> our party? <em>(Partimize katılmak ister misin?)</em></li>
+            </ul>
+        </div>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">2. HOW ABOUT / WHAT ABOUT ... ? (...-maya ne dersin?)</h3>
+            <p><strong>DİKKAT!</strong> Bu kalıplardan sonra gelen fiil mutlaka <strong>-ing (ıng)</strong> takısı almak zorundadır. İsim gelirse takıya gerek yoktur.</p>
+            <div class="grammar-formula">How about / What about + Fiil-ing ?</div>
+            <ul>
+                <li>How about <strong>going</strong> to the cinema? <em>(Sinemaya gitmeye ne dersin?)</em></li>
+                <li>What about <strong>drinking</strong> some coffee? <em>(Biraz kahve içmeye ne dersin?)</em></li>
+            </ul>
+        </div>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">3. WHY DON'T WE/YOU ... ? (Neden ...-mıyoruz?)</h3>
+            <p>Soru cümlesi olmasına rağmen anlamca bir öneridir. Fiil <strong>yalın</strong> halde kullanılır.</p>
+            <div class="grammar-formula">Why don't we + Fiil (Yalın) ?</div>
+            <ul>
+                <li>Why don't we <strong>organize</strong> a tournament? <em>(Neden bir turnuva düzenlemiyoruz?)</em></li>
+                <li>Why don't you <strong>come</strong> along? <em>(Neden birlikte gelmiyorsun?)</em></li>
+            </ul>
+        </div>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">4. LET'S ... (Haydi ...)</h3>
+            <p>Soru işareti <strong>kullanılmaz</strong>. Cümle nokta ile biter. Fiil yalın haldedir.</p>
+            <div class="grammar-formula">Let's + Fiil (Yalın) .</div>
+            <ul>
+                <li>Let's <strong>have</strong> a barbecue on Sunday. <em>(Hadi Pazar günü mangal yapalım.)</em></li>
+            </ul>
+        </div>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">5. SHALL WE ... ? (...-alım mı?)</h3>
+            <p>Genelde "biz" anlamına gelen "we" ile kullanılır. Fiil yalındır.</p>
+            <div class="grammar-formula">Shall we + Fiil (Yalın) ?</div>
+            <ul>
+                <li>Shall we <strong>meet</strong> at the cafe? <em>(Kafede buluşalım mı?)</em></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: Expanding accept and refuse phrases -->
+    <!-- PAGE 4: ACCEPTING & REFUSING -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 3: Accepting & Refusing (Kabul Etme ve Reddetme)</h2>
+        <p>LGS'deki boşluk doldurma (diyalog) sorularının %80'i buradan gelir. Bir teklife verilen cevabın olumlu mu (Accepting) yoksa olumsuz mu (Refusing) olduğunu cümlenin gidişatından veya arkasından gelen mazeretten anlarız.</p>
+
+        <h3 class="sub-title">1. ACCEPTING (Kabul Etme İfadeleri)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="background-color: var(--success);">İngilizce İfade</th>
+                    <th style="background-color: var(--success);">Türkçe Anlamı</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Yes, please.</strong></td><td>Evet, lütfen.</td></tr>
+                <tr><td><strong>Sure / Of course.</strong></td><td>Tabii ki / Elbette.</td></tr>
+                <tr><td><strong>That sounds great/awesome/fun.</strong></td><td>Kulağa harika/mükemmel/eğlenceli geliyor.</td></tr>
+                <tr><td><strong>I'd love to. / I would love to.</strong></td><td>(Çok) isterim.</td></tr>
+                <tr><td><strong>That is a good/great idea.</strong></td><td>Bu harika bir fikir.</td></tr>
+                <tr><td><strong>I can't refuse it.</strong></td><td>Bunu reddedemem. (Güçlü bir kabul!)</td></tr>
+                <tr><td><strong>Alright / Okay.</strong></td><td>Pekala / Tamam.</td></tr>
+                <tr><td><strong>I'll definitely be there.</strong></td><td>Kesinlikle orada olacağım.</td></tr>
+                <tr style="background-color: #fcf3cf;">
+                    <td><strong style="color: #c0392b;">Why not?</strong></td>
+                    <td><strong style="color: #c0392b;">Neden olmasın? (DİKKAT: KESİNLİKLE KABUL ETMEKTİR!)</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-title">2. REFUSING (Reddetme İfadeleri)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="background-color: var(--accent);">İngilizce İfade</th>
+                    <th style="background-color: var(--accent);">Türkçe Anlamı</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>No, thanks.</strong></td><td>Hayır, teşekkürler.</td></tr>
+                <tr><td><strong>I'm sorry, I can't.</strong></td><td>Üzgünüm, yapamam/gelemem.</td></tr>
+                <tr><td><strong>I'd love to, but I can't.</strong></td><td>Çok isterdim ama yapamam/gelemem.</td></tr>
+                <tr><td><strong>Maybe another time / Maybe later.</strong></td><td>Belki başka zaman / Belki daha sonra.</td></tr>
+                <tr><td><strong>I'm afraid I can't.</strong></td><td>Korkarım ki yapamam.</td></tr>
+                <tr><td><strong>Another time, perhaps.</strong></td><td>Belki başka bir zaman.</td></tr>
+                <tr><td><strong>I'm too busy.</strong></td><td>Çok meşgulüm.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="lgs-tip">
+            <div class="lgs-tip-title">LGS Çeldirici Analizi</div>
+            Öğrenciler genellikle içinde <strong>"love"</strong> geçen <em>"I'd love to, but I can't"</em> cümlesini görünce "kabul ediyor" sanırlar. Ancak cümlede <strong>"BUT" (ama)</strong> bağlacı vardır. İngilizcede "but" kelimesinden önceki kısım ne kadar olumlu olursa olsun, sonraki kısım sonucu belirler. Bu cümle net bir <strong>REDDETME (Refusal)</strong> cümlesidir.
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: Formulating excuses and reasons -->
+    <!-- PAGE 5: MAKING EXCUSES -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 4: Making Excuses (Mazeret Bildirme)</h2>
+        <p>Eğer bir teklifi reddediyorsak (Refuse), kibar olmak adına genellikle bir mazeret (Excuse/Reason) sunarız. LGS sorularında boşluktan sonra "I have to study" gibi bir ifade varsa, boşluğa mutlaka bir "Reddetme" kalıbı gelmelidir.</p>
+
+        <h3 class="sub-title">Sık Karşılaşılan Mazeretler (Common Excuses)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th style="background-color: var(--warning); color: #333;">İngilizce Mazeret Cümlesi</th>
+                    <th style="background-color: var(--warning); color: #333;">Türkçe Çevirisi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>I have to study for my exam.</td><td>Sınavıma çalışmak zorundayım.</td></tr>
+                <tr><td>I am going to visit my grandparents.</td><td>Büyükanne/büyükbabamı ziyaret edeceğim.</td></tr>
+                <tr><td>My cousins are coming over.</td><td>Kuzenlerim bize uğrayacak/geliyor.</td></tr>
+                <tr><td>I feel ill / sick.</td><td>Hasta hissediyorum.</td></tr>
+                <tr><td>I have other plans.</td><td>Başka planlarım var.</td></tr>
+                <tr><td>I must help my parents.</td><td>Aileme yardım etmeliyim.</td></tr>
+                <tr><td>We have guests on that day.</td><td>O gün misafirlerimiz var.</td></tr>
+                <tr><td>I am stuffed / full.</td><td>Tokum. <em>(Yemek teklifini reddederken kullanılır)</em></td></tr>
+                <tr><td>I have to take care of my little sister.</td><td>Küçük kız kardeşime bakmak zorundayım.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="grammar-box">
+            <h3 style="margin-top: 0; color: #2980b9;">Formül: Refusal + [Because] + Excuse</h3>
+            <p>Reddetme cümlesi ile mazeret cümlesi genellikle birbirine bağlanır. Bazen "because" (çünkü) bağlacı açıkça kullanılır, bazen de kullanılmadan arka arkaya söylenir.</p>
+            <ul>
+                <li><strong>Refusal:</strong> I am sorry, I can't. (Üzgünüm gelemem.)</li>
+                <li><strong>Excuse:</strong> I have to finish my homework. (Ödevimi bitirmek zorundayım.)</li>
+                <li><strong>Birleşimi:</strong> I am sorry, I can't <strong>because</strong> I have to finish my homework.</li>
+            </ul>
+        </div>
+
+        <div class="lgs-tip">
+            <div class="lgs-tip-title">Bağlamı (Context) Doğru Anlamak</div>
+            <p>LGS, mazeretin teklifle uyumlu olup olmadığını da test eder. Örneğin:</p>
+            <p><strong>A:</strong> Would you like to eat some pizza?<br>
+            <strong>B:</strong> No thanks. ___________.</p>
+            <p>Bu boşluğa <em>"I am going to visit my uncle"</em> (Amcamı ziyaret edeceğim) gelmesi mantıksızdır. Yemek teklifini reddetme mazereti <em>"I am stuffed"</em> (Tokum) veya <em>"I don't like fast food"</em> (Hazır yemek sevmem) olmalıdır.</p>
+        </div>
+    </div>
+
+    <!-- STREAMING_CHUNK: Designing the invitation card analysis section -->
+    <!-- PAGE 6: INVITATION CARD -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 5: Invitation Card (Davetiye Kartı) Analizi</h2>
+        <p>LGS'de banko 1 veya 2 sorunun geldiği formattır. Bir davetiye kartı verilir ve "Which question has NO answer?" (Hangi sorunun cevabı yoktur?) diye sorulur.</p>
+
+        <h3 class="sub-title">Davetiyenin Bölümleri</h3>
+
+        <div class="invitation-card">
+            <div class="inv-label" style="top: -15px; left: 20px;">Receiver (Alıcı / Davet Edilen)</div>
+            <h3 style="color: var(--primary);">Dear Alex,</h3>
+            
+            <p style="margin: 30px 0; font-size: 1.1rem; line-height: 1.8;">
+                Our school club is organizing a <strong style="color: var(--accent);">Class Reunion</strong>.<br>
+                <div class="inv-label" style="top: 80px; right: 20px;">Event (Etkinlik türü)</div>
+                It is a great chance to see old friends! We are expecting to see you all.<br><br>
+                
+                <strong>Date:</strong> Sunday, May 15th <span class="inv-label" style="position: static; margin-left: 10px; background: var(--success);">Date (Tarih)</span><br>
+                <strong>Time:</strong> 2 p.m. - 5 p.m. <span class="inv-label" style="position: static; margin-left: 10px; background: var(--warning); color: #333;">Time (Saat)</span><br>
+                <strong>Place:</strong> Moonlight Cafe, Rose Street <span class="inv-label" style="position: static; margin-left: 10px; background: #9b59b6;">Location (Yer)</span><br>
+                <strong>Fee:</strong> $15 per person <span class="inv-label" style="position: static; margin-left: 10px; background: #34495e;">Fee (Ücret)</span><br><br>
+
+                Please inform us in advance until <strong style="color: var(--accent);">May 10th.</strong><br>
+                <div class="inv-label" style="bottom: 80px; left: 20px; background: #e67e22;">Deadline (Son Bildirim)</div>
+            </p>
+
+            <h4 style="margin-bottom: 0; color: var(--primary);">Cheers,</h4>
+            <h3 style="margin-top: 5px;">Mark</h3>
+            <div class="inv-label" style="bottom: -15px; right: 20px; background: #2c3e50;">Sender (Gönderen)</div>
+        </div>
+
+        <h3 class="sub-title">LGS'de Karşına Çıkacak Soru Tipleri</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Who is the sender/inviter?</strong> (Gönderen/Davet eden kim?) &rarr; Mark</li>
+            <li><strong>Who is the receiver/invitee?</strong> (Alıcı/Davet edilen kim?) &rarr; Alex</li>
+            <li><strong>What is the event?</strong> (Etkinlik nedir?) &rarr; Class Reunion (Sınıf Buluşması)</li>
+            <li><strong>Where is the event?</strong> (Etkinlik nerede?) &rarr; At Moonlight Cafe</li>
+            <li><strong>When is the event?</strong> (Etkinlik ne zaman?) &rarr; On May 15th (Date) / At 2 p.m. (Time)</li>
+            <li><strong>How much is the fee?</strong> (Ücret ne kadar?) &rarr; $15</li>
+            <li><strong>What is the deadline?</strong> (Son bildirim tarihi ne?) &rarr; May 10th</li>
+        </ul>
+    </div>
+
+    <!-- STREAMING_CHUNK: Adding sample LGS questions and solutions -->
+    <!-- PAGE 7: SAMPLE LGS QUESTIONS & SOLUTIONS -->
+    <div class="page">
+        <h2 class="section-title">Bölüm 6: LGS Tipi Örnek Sorular ve Çözümleri</h2>
+        
+        <!-- Question 1 -->
+        <div class="question-box">
+            <div style="background-color: var(--primary); color: white; display: inline-block; padding: 5px 15px; border-radius: 4px; margin-bottom: 15px; font-weight: bold;">Soru 1 (Diyalog)</div>
+            
+            <div class="question-text">
+                <p><strong>Jane:</strong> We are organizing a slumber party on Saturday night. Would you like to join us?</p>
+                <p><strong>Mary:</strong> __________________________. I have to finish my science project.</p>
+                <p><em>Which of the following completes the dialogue?</em></p>
+            </div>
+            
+            <ul class="options">
+                <li>A) That sounds awesome!</li>
+                <li>B) I'd love to, but I can't.</li>
+                <li>C) Yeah, why not?</li>
+                <li>D) Sure, I'll definitely be there.</li>
+            </ul>
+
+            <div class="solution-box">
+                <strong>ÇÖZÜM:</strong> Boşluktan sonra Mary, <em>"I have to finish my science project." (Fen projemi bitirmek zorundayım)</em> diyerek bir <strong>mazeret (excuse)</strong> bildirmiştir. Mazeret bildiren kişi teklifi <strong>reddetmiş</strong> demektir. <br><br>
+                A şıkkı (Harika duyuluyor), C şıkkı (Neden olmasın) ve D şıkkı (Kesinlikle orada olacağım) <strong>KABUL ETME (Accepting)</strong> ifadeleridir. <br>
+                B şıkkı (Çok isterdim ama gelemem) ise bir <strong>REDDETME (Refusing)</strong> ifadesidir ve devamındaki mazeret ile mükemmel uyum sağlar. <strong>Doğru Cevap: B</strong>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-box">
+            <div style="background-color: var(--primary); color: white; display: inline-block; padding: 5px 15px; border-radius: 4px; margin-bottom: 15px; font-weight: bold;">Soru 2 (Kelime Bilgisi)</div>
+            
+            <div class="question-text">
+                <p><strong>Tom:</strong> I think Jack is not a good friend. He always thinks about himself and never shares anything with us. Also, he tells our secrets to other people.</p>
+                <p><em>According to Tom's speech, Jack is ____________ .</em></p>
+            </div>
+            
+            <ul class="options">
+                <li>A) generous and reliable</li>
+                <li>B) selfish and unreliable</li>
+                <li>C) honest and tactful</li>
+                <li>D) supportive and loyal</li>
+            </ul>
+
+            <div class="solution-box">
+                <strong>ÇÖZÜM:</strong> Parçada Jack'in kötü özelliklerinden bahsedilmiştir.<br>
+                - "thinks about himself" (sadece kendini düşünür) = <strong>Selfish (Bencil)</strong><br>
+                - "never shares" (asla paylaşmaz) = Cimri/Bencil<br>
+                - "tells our secrets to other people" (sırlarımızı başkalarına söyler) = <strong>Unreliable (Güvenilmez)</strong><br><br>
+                A, C ve D şıklarındaki sıfatların hepsi olumlu (iyi) özelliklerdir. B şıkkında ise parçada anlatılan olumsuz özelliklerin tam karşılıkları verilmiştir. <strong>Doğru Cevap: B</strong>
+            </div>
+        </div>
+
+        <div class="lgs-tip">
+            <div class="lgs-tip-title">Son Taktik: Soru Köküne Dikkat!</div>
+            <p>LGS İngilizce sorularında çoğu öğrenci soru kökünü yanlış okuduğu için hata yapar. Şu kelimelere çok dikkat et:</p>
+            <ul>
+                <li><strong>Correct / True:</strong> Doğru olanı bul.</li>
+                <li><strong>Not Correct / False:</strong> Yanlış olanı bul.</li>
+                <li><strong>NO answer:</strong> Cevabı olmayan soruyu bul.</li>
+                <li><strong>Refuses the offer:</strong> Teklifi reddeden kişiyi bul.</li>
+                <li><strong>Accepts the offer:</strong> Teklifi kabul eden kişiyi bul.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
